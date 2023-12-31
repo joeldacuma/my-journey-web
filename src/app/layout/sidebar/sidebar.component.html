@@ -1,3 +1,12 @@
-<div class="layout-sidebar">
-
-</div>
+<ul class="layout-menu">
+<!-- @for (dashboardMenu of dashboardMenus()?.data?.attributes?.Sidebar; track dashboardMenu) { -->
+  <ng-container>
+     <li class="layout-root-menuitem">
+      <ng-container>
+        <!-- <div class="layout-menuitem-root-text"> {{ dashboardMenu.title }}</div> -->
+      </ng-container>
+     </li>
+   <li class="menu-separator"></li>
+  </ng-container>
+<!-- } -->
+</ul>

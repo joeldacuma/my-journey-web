@@ -1,6 +1,9 @@
 <div class="layout-topbar">
+  <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <i class="pi pi-bars"></i>
+  </button>
   <a class="layout-topbar-logo" href="/">
     <img class="layout-topbar-logo-img" src="assets/logo.png" />
-    <span>MY JOURNEY</span>
+    <h3>MY JOURNEY</h3>
   </a>
 </div>

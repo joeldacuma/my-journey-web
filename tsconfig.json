@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -18,6 +19,16 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
+    "paths": {
+      "@pages/*": ["app/pages/*"],
+      "@components/*": ["app/components/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+      "@constants/*": ["app/constants/*"],
+      "@layout/*": ["app/layout/*"],
+      "@environments/*": ["environments/*"],
+      "@api/*": ["app/api/*"],
+    },
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
