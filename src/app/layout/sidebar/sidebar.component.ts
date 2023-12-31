@@ -13,8 +13,7 @@ import {
   IDashboardSidebarMenuProps,
 } from "@interfaces/index";
 import { StrapiService } from "@api/index";
-import { lastValueFrom, map, switchMap } from "rxjs";
-
+import { lastValueFrom, map } from "rxjs";
 @Component({
   selector: "app-sidebar",
   standalone: true,
