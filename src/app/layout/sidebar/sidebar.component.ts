@@ -14,10 +14,16 @@ import {
 } from "@interfaces/index";
 import { StrapiService } from "@api/index";
 import { lastValueFrom, map } from "rxjs";
+
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { PanelModule } from 'primeng/panel';
+import { MenuModule } from 'primeng/menu';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 @Component({
   selector: "app-sidebar",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PanelMenuModule, PanelModule, MenuModule],
   templateUrl: "./sidebar.component.html",
 })
 export class SideBarComponent {
@@ -43,8 +49,31 @@ export class SideBarComponent {
     }
   ];
   public dashboardMenusData = signal<IDashboardSidebarMenuProps[]>([]);
+  public items:any = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.items = [{
+      label: 'Agenda',
+      items: [
+        {
+            label: 'Events',
+            icon: 'pi pi-fw pi-calendar'
+        },
+        {
+            label: 'Members',
+            icon: 'pi pi-fw pi-users'
+        },
+        {
+            label: 'Categories',
+            icon: 'pi pi-fw pi-list'
+        },
+        {
+            label: 'Locations',
+            icon: 'pi pi-fw pi-map-marker'
+        }
+      ]
+    }];
+  }
 
   constructor() {
     effect(async () => {
@@ -56,6 +85,7 @@ export class SideBarComponent {
             }))
           )
         )
+      console.log(dashboardContentData);
       this.dashboardMenusData.set(dashboardContentData);
     });
   }
