@@ -1,6 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-
+import { Subject } from 'rxjs';
 
 import { ILayoutProps }  from '@interfaces/index';
 import { TABLET_SIZE_WIDTH } from '@constants/index';
@@ -16,13 +16,13 @@ export class LayoutService {
     menuHoverActive: false,
   };
 
-  private overlayOpen = signal<boolean>(false);
-  public overlayOpen$ = toObservable(this.overlayOpen);
+  private overlayOpen = new Subject<boolean>();
+  public overlayOpen$ = this.overlayOpen.asObservable();
 
   onMenuToggle() {
     this.state.overlayMenuActive = !this.state.overlayMenuActive;
     if (this.state.overlayMenuActive) {
-      this.overlayOpen.set(this.state.overlayMenuActive);
+      this.overlayOpen.next(this.state.overlayMenuActive);
     }
 
     if (this.isDesktop()) {
@@ -30,7 +30,7 @@ export class LayoutService {
     } else {
       this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
       if (this.state.staticMenuMobileActive) {
-        this.overlayOpen.set(this.state.overlayMenuActive);
+        this.overlayOpen.next(this.state.overlayMenuActive);
       }
     }
   }
@@ -43,5 +43,7 @@ export class LayoutService {
     return !this.isDesktop();
   }
 
-  constructor() { }
+  constructor() { 
+    // effect(() => this.overlayOpen());
+  }
 }
