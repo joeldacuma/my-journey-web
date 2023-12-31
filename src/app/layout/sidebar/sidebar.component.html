@@ -1,11 +1,11 @@
 <ul class="layout-menu">
-@for (dashboardMenu of dashboardMenusData(); track dashboardMenu) {
+@for (menuItem of menuItemsList; track menuItem) {
   <ng-container>
      <li class="layout-root-menuitem">
       <ng-container>
-        <div class="layout-menuitem-root-text">{{ dashboardMenu.title }}</div>
+        <div class="layout-menuitem-root-text">{{ menuItem.label }}</div>
         <ul>
-          <p-panelMenu [model]="items"></p-panelMenu>
+          <p-panelMenu [model]="menuItem.items"></p-panelMenu>
         </ul>
       </ng-container>
      </li>

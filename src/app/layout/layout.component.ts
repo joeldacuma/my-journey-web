@@ -40,7 +40,6 @@ export class LayoutComponent {
 
   constructor() {
     this.subscription = this.layoutService.overlayOpen$.subscribe((open) => {
-      console.log(open)
       if (open) {
         this.menuOutsideClickListener = this.renderer.listen(
           "document",

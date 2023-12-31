@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  strapi: 'https://myjourneytracker.up.railway.app//api'
 };

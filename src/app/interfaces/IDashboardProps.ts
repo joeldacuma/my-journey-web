@@ -13,7 +13,9 @@ declare interface IDashboardSidebarMenuProps {
   title: string;
   disabled: boolean;
   menu: {
-    data: IDashboardMenuProps
+    data: [
+      IDashboardMenuProps
+    ]
   };
 };
 
@@ -30,7 +32,7 @@ declare interface IDashboardMenuProps {
 
 declare interface IDashboardSubMenuProps {
   id: number;
-  name: string;
+  title: string;
   url: string;
   disabled: boolean;
   iconName: string;

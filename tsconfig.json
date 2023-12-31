@@ -28,6 +28,7 @@
       "@layout/*": ["app/layout/*"],
       "@environments/*": ["environments/*"],
       "@api/*": ["app/api/*"],
+      "@utils/*": ["app/utils/*"],
     },
     "useDefineForClassFields": false,
     "lib": [
