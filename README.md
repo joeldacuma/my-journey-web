@@ -7,6 +7,13 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 - NPM 10.2+
 - Angular CLI 17.0.8
 
+install the dependencies and run the app in the browser:
+
+```bash
+npm install
+ng serve
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
