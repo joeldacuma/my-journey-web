@@ -1,12 +1,13 @@
-import { Component, Renderer2, ViewChild, inject } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterOutlet } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Component, Renderer2, ViewChild, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { TopBarComponent } from "@layout/topbar/topbar.component";
-import { SideBarComponent } from "@layout/sidebar/sidebar.component";
+import { TopBarComponent } from '@layout/topbar/topbar.component';
+import { SideBarComponent } from '@layout/sidebar/sidebar.component';
+import { FooterComponent } from '@layout/footer/footer.component';
 
-import { LayoutService } from "@services/index";
+import { LayoutService } from '@services/index';
 
 @Component({
   selector: "app-layout",
@@ -14,7 +15,8 @@ import { LayoutService } from "@services/index";
   imports: [CommonModule, 
             RouterOutlet, 
             TopBarComponent, 
-            SideBarComponent
+            SideBarComponent,
+            FooterComponent
            ],
   templateUrl: "./layout.component.html",
 })

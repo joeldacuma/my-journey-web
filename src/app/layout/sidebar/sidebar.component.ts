@@ -4,14 +4,14 @@ import {
   ElementRef,
   inject,
   effect,
-} from "@angular/core";
+} from '@angular/core';
 import {
   IDashboardProps,
   IDashboardSidebarMenuProps,
   IMenuItemProps
 } from "@interfaces/index";
-import { StrapiService } from "@api/index";
-import { mapApiSideBarMenu } from "@utils/index";
+import { StrapiService } from '@api/index';
+import { mapApiSideBarMenu, DASHBOARD_SIDEMENU_FILTER } from "@utils/index";
 import { lastValueFrom, map } from "rxjs";
 
 import { PanelMenuModule } from 'primeng/panelmenu';
@@ -37,11 +37,10 @@ export class SideBarComponent {
       const dashboardContentData = await lastValueFrom(
         this.strapi.getDashboardContentData().pipe(
           map((result: IDashboardProps) =>
-            result.data.attributes.Sidebar.filter((item: IDashboardSidebarMenuProps) => {
-              return (item.disabled === false) && item;
-            }))
+            DASHBOARD_SIDEMENU_FILTER(result)
           )
-        );
+        )
+      );
 
       this.menuItemsList = mapApiSideBarMenu(dashboardContentData, this.menuItemsList);
     });
