@@ -4,3 +4,4 @@ node_modules
 .vscode
 .firebase.json
 .firebaserc
+dist
