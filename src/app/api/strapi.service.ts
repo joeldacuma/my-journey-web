@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
-import { environment } from '@environments/environment';
 
 import { IDashboardProps } from '@interfaces/index';
 import { POPULATE_ALL } from '@constants/index';
+
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'

@@ -1,14 +1,17 @@
 <ul class="layout-menu">
-@for (menuItem of menuItemsList; track menuItem) {
+  @for (menuItem of menuItemsList; track menuItem) {
   <ng-container>
-     <li class="layout-root-menuitem">
+    <li class="layout-root-menuitem">
       <ng-container>
         <div class="layout-menuitem-root-text">{{ menuItem.label }}</div>
         <ul>
-          <p-panelMenu [model]="menuItem.items" [multiple]="false"></p-panelMenu>
+          <p-panelMenu
+            [model]="menuItem.items"
+            [multiple]="false"
+          ></p-panelMenu>
         </ul>
       </ng-container>
-     </li>
+    </li>
   </ng-container>
-}
+  }
 </ul>

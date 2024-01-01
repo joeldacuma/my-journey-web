@@ -7,6 +7,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { RippleModule } from 'primeng/ripple';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { InputTextModule } from 'primeng/inputtext';
     CheckboxModule,
     PasswordModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    RippleModule
   ]
 })
 export class PrimengModule { }
