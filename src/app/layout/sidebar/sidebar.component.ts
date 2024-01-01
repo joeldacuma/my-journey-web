@@ -14,14 +14,12 @@ import { StrapiService } from '@api/index';
 import { mapApiSideBarMenu, DASHBOARD_SIDEMENU_FILTER } from "@utils/index";
 import { lastValueFrom, map } from "rxjs";
 
-import { PanelMenuModule } from 'primeng/panelmenu';
-import { PanelModule } from 'primeng/panel';
-import { MenuModule } from 'primeng/menu';
+import { PrimengModule } from '@modules/index';
 
 @Component({
   selector: "app-sidebar",
   standalone: true,
-  imports: [CommonModule, PanelMenuModule, PanelModule, MenuModule],
+  imports: [CommonModule, PrimengModule],
   templateUrl: "./sidebar.component.html",
 })
 export class SideBarComponent {

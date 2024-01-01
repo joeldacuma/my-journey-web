@@ -29,6 +29,8 @@
       "@environments/*": ["environments/*"],
       "@api/*": ["app/api/*"],
       "@utils/*": ["app/utils/*"],
+      "@forms/*": ["app/forms/*"],
+      "@modules/*": ["app/modules/*"],
     },
     "useDefineForClassFields": false,
     "lib": [

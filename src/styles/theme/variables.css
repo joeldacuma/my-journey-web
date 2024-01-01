@@ -1259,7 +1259,7 @@
     outline: 0 none;
     outline-offset: 0;
     box-shadow: 0 0 0 1px #6366f1;
-    border-color: #4f46e5;
+    border-color: var(--primary-color);
   }
   .p-inputtext.ng-dirty.ng-invalid {
     border-color: #f0a9a7;
@@ -1671,7 +1671,7 @@
     background: #4f46e5;
   }
   .p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
-    background: #4f46e5;
+    background: var(--primary-color);
   }
 
   .p-radiobutton-label {
