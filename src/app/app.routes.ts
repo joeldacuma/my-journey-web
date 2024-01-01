@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuardService } from '@services/index';
 
 export const routes: Routes = [
   {
@@ -9,7 +10,8 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
       }
-    ]
+    ],
+    canActivate: [AuthGuardService.canActivate]
   },
   {
     path: 'notfound',
