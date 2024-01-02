@@ -12,4 +12,6 @@ import { LayoutService } from '@services/index';
 export class TopBarComponent {
   public layoutService = inject(LayoutService);
   @ViewChild('menubutton') menuButton!: ElementRef;
+  @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
+  
 }

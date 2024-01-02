@@ -3,4 +3,5 @@ export interface ILayoutProps {
   staticMenuDesktopInactive: boolean;
   staticMenuMobileActive: boolean;
   menuHoverActive: boolean;
+  profileSidebarVisible: boolean;
 };

@@ -28,10 +28,8 @@ export class SideBarComponent {
   public dashboardMenus: IDashboardSidebarMenuProps[] = [];
   public menuItemsList: IMenuItemProps[] = [];
 
-  ngOnInit() {}
-
-  constructor() {
-    effect(async () => {
+  ngOnInit() {
+    (async() => {
       const dashboardContentData = await lastValueFrom(
         this.strapi.getDashboardContentData().pipe(
           map((result: IDashboardProps) =>
@@ -39,8 +37,8 @@ export class SideBarComponent {
           )
         )
       );
-
+  
       this.menuItemsList = mapApiSideBarMenu(dashboardContentData, this.menuItemsList);
-    });
+    })();
   }
 }

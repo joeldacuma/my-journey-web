@@ -1,5 +1,4 @@
 import { Injectable, signal, effect } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 
 import { ILayoutProps }  from '@interfaces/index';
@@ -14,6 +13,7 @@ export class LayoutService {
     staticMenuDesktopInactive: false,
     staticMenuMobileActive: false,
     menuHoverActive: false,
+    profileSidebarVisible: false
   };
 
   private overlayOpen = new Subject<boolean>();
@@ -34,6 +34,13 @@ export class LayoutService {
       }
     }
   }
+
+  showProfileSidebar() {
+    this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
+    if (this.state.profileSidebarVisible) {
+      this.overlayOpen.next(this.state.overlayMenuActive);
+    }
+  };
 
   isDesktop() {
     return window.innerWidth > TABLET_SIZE_WIDTH;
