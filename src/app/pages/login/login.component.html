@@ -16,33 +16,52 @@
           <div class="text-900 text-3xl font-medium mb-3">Hi, Welcome!</div>
           <span class="text-600 font-medium">Sign in to continue</span>
         </div>
-
+        <p-toast key="login"></p-toast>
         <div>
           <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
             <label class="block text-900 text-xl font-medium mb-2">Email</label>
-            <input
-              type="text"
-              placeholder="Email address"
-              pInputText
-              class="w-full md:w-30rem mb-5"
+            <div class="field p-fluid">
+              <input
+                type="text"
+                placeholder="Email address"
+                pInputText
+              class="w-full md:w-30rem mb-2"
               style="padding: 1rem"
               formControlName="email"
-            />
+              />
+              @if (submitted && formFields['email'].errors) {
+                @if (formFields['email'].errors?.['email']) {
+                  <p-message class="mb-2" severity="error" text="email format is invalid." />
+                }
+                @if (formFields['email'].errors?.['required']) {
+                  <p-message class="mb-2" severity="error" text="email is required." />
+                }
+              }
+            </div>
 
             <label
               for="password1"
               class="block text-900 font-medium text-xl mb-2"
               >Password</label
             >
-            <p-password
+            <div class="field p-fluid">
+              <p-password
               placeholder="Password"
               [toggleMask]="true"
               [feedback]="false"
-              styleClass="w-full mb-5"
+              styleClass="w-full mb-2"
               inputStyleClass="w-full p-3 md:w-30rem w-100"
               formControlName="password"
-            ></p-password>
-
+              ></p-password>
+              @if (submitted && formFields['password'].errors) {
+                @if (formFields['password'].errors?.['required']) {
+                  <p-message class="mb-2" severity="error" text="password is required." />
+                }
+                @if (formFields['password'].errors?.minlength) {
+                  <p-message class="mb-2" severity="error" text="password should minimum to 8 characters." />
+                }
+              }
+            </div>
             <div
               class="flex align-items-center justify-content-between mb-5 gap-5"
             >

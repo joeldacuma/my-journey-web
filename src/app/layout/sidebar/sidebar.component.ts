@@ -3,7 +3,8 @@ import {
   Component,
   ElementRef,
   inject,
-  effect,
+  HostBinding,
+  Input
 } from '@angular/core';
 import {
   IDashboardProps,

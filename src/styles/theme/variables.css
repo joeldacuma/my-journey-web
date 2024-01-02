@@ -6008,7 +6008,7 @@
       .p-submenu-list
       .p-menuitem
       .p-submenu-list
-      .p-menuitem
+      .p-menuitemx
       .p-submenu-list
       .p-menuitem
       .p-menuitem-content
@@ -6761,7 +6761,7 @@
     color: #d97706;
   }
   .p-inline-message.p-inline-message-error {
-    background: #fef3c7;
+    background: #f5bebe;
     border: none;
     border-width: 0px;
     color: #dc2626;
@@ -6843,7 +6843,7 @@
     color: #d97706;
   }
   .p-message.p-message-error {
-    background: #fef3c7;
+    background: #f5bebe;
     border: none;
     border-width: 0 0 0 6px;
     color: #dc2626;
@@ -6951,7 +6951,7 @@
     color: #d97706;
   }
   .p-toast .p-toast-message.p-toast-message-error {
-    background: #fef3c7;
+    background: #f5bebe;
     border: none;
     border-width: 0 0 0 6px;
     color: #dc2626;

@@ -1,4 +1,4 @@
-declare interface IDashboardProps {
+export interface IDashboardProps {
   data: {
     id: number;
     disabled: boolean;
@@ -8,7 +8,7 @@ declare interface IDashboardProps {
   }
 };
 
-declare interface IDashboardSidebarMenuProps {
+export interface IDashboardSidebarMenuProps {
   id: number;
   title: string;
   disabled: boolean;
@@ -19,7 +19,7 @@ declare interface IDashboardSidebarMenuProps {
   };
 };
 
-declare interface IDashboardMenuProps {
+export interface IDashboardMenuProps {
       id: number;
       attributes: {
         iconName: string;
@@ -30,17 +30,10 @@ declare interface IDashboardMenuProps {
       }
 };
 
-declare interface IDashboardSubMenuProps {
+export interface IDashboardSubMenuProps {
   id: number;
   title: string;
   url: string;
   disabled: boolean;
   iconName: string;
-};
-
-export {
-  IDashboardProps,
-  IDashboardSidebarMenuProps,
-  IDashboardMenuProps,
-  IDashboardSubMenuProps,
 };

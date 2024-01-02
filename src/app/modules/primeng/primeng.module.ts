@@ -7,7 +7,9 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
-
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   declarations: [],
@@ -20,7 +22,10 @@ import { RippleModule } from 'primeng/ripple';
     PasswordModule,
     ButtonModule,
     InputTextModule,
-    RippleModule
+    RippleModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule
   ]
 })
 export class PrimengModule { }
