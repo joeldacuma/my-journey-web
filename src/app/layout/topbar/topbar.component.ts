@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { LayoutService, LocalstorageService } from '@services/index';
+import { PrimengModule } from '@modules/index';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    PrimengModule
+  ],
   templateUrl: './topbar.component.html'
 })
 export class TopBarComponent {

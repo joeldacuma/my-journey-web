@@ -16,7 +16,7 @@ import { LayoutService } from '@services/index';
             RouterOutlet, 
             TopBarComponent, 
             SideBarComponent,
-            FooterComponent
+            FooterComponent,
            ],
   templateUrl: "./layout.component.html",
 })

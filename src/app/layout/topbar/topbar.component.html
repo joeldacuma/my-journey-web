@@ -10,13 +10,19 @@
   <i class="pi pi-ellipsis-v"></i>
   </button>
   <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-    <button class="p-link layout-topbar-button">
+    <button pButton [pTooltip]="tooltipContentProfile" tooltipPosition="bottom" class="p-link layout-topbar-button">
         <i class="pi pi-user"></i>
         <span>Profile</span>
+        <ng-template #tooltipContentProfile>
+          <span>Profile</span>
+        </ng-template>
     </button>
-    <button class="p-link layout-topbar-button" (click)="logout()">
+    <button pButton [pTooltip]="tooltipContentLogout" tooltipPosition="bottom" class="p-link layout-topbar-button" (click)="logout()">
       <i class="pi pi-sign-out"></i>
       <span>Logout</span>
+      <ng-template #tooltipContentLogout>
+        <span>Logout</span>
+      </ng-template>
   </button>
 </div>
 </div>

@@ -10,6 +10,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -25,7 +26,8 @@ import { MessageModule } from 'primeng/message';
     RippleModule,
     ToastModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    TooltipModule
   ]
 })
 export class PrimengModule { }

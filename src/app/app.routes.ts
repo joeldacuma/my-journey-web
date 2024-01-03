@@ -13,10 +13,10 @@ export const routes: Routes = [
     ],
     canActivate: [AuthGuardService.canActivate]
   },
-  {
-    path: 'notfound',
-    loadComponent: () => import('./pages/notfound/notfound.component').then(m => m.NotfoundComponent)
-  },
+  // {
+  //   path: 'notfound',
+  //   loadComponent: () => import('./pages/notfound/notfound.component').then(m => m.NotfoundComponent)
+  // },
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
