@@ -9,7 +9,7 @@ import {
 import { catchError, lastValueFrom, map } from "rxjs";
 import { MessageService } from 'primeng/api';
 import { PrimengModule } from "@modules/index";
-import { IAgendaLoginProps, IAuthProps } from "@interfaces/index";
+import { IAgendaLoginProps, ILoginAuthProps, IAuthProps } from "@interfaces/index";
 import { LoginForm } from "@forms/index";
 import { AgendaService, StrapiService } from "@api/index";
 import { LocalstorageService } from '@services/index';
@@ -17,7 +17,8 @@ import { MY_JOURNEY_AUTH_CONSTANT,
          ERROR_MESSAGE_LOGIN_EMPTY_FIELDS,
          ERROR_MESSAGE_LOGIN_FAILED_TITLE,
          SUCCESS_MESSAGE_LOGIN_DETAILS,
-         SUCCESS_MESSAGE_LOGIN_TITLE } from '@constants/index';
+         SUCCESS_MESSAGE_LOGIN_TITLE ,
+         ROUTE_DASHBOARD} from '@constants/index';
 
 @Component({
   selector: "app-login",
@@ -43,6 +44,7 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   public loginFormGroup = new FormGroup<IAgendaLoginProps>(LoginForm);
   public submitted = false;
+  public loading = signal(false);
 
   ngOnInit() {};
 
@@ -52,27 +54,18 @@ export class LoginComponent {
 
   async onSubmit() {
     this.submitted = true;
+    this.loading = signal(true);
     if (!this.loginFormGroup.valid) {
+      this.loading.update(() => false);
       return;
     }
 
     const { email, password } = this.loginFormGroup.value;
-    const body = { identifier: email, password };
+    const body = { email: email, password };
 
-    // const authResult = await lastValueFrom(
-    //   this.agendaService.login(body).pipe(
-    //     map((result: ILoginAuthProps) => {
-    //       if (result) {
-    //         console.log(result);
-    //         return;
-    //       }
-    //     })
-    //   )
-    // );
-
-    const strapiAuthResult = await lastValueFrom(
-      this.strapiService.login(body).pipe(
-        map((result: IAuthProps) => {
+    await lastValueFrom(
+      this.agendaService.login(body).pipe(
+        map((result: ILoginAuthProps) => {
           this.messageService.add({
             key: 'login', 
             severity:'info', 
@@ -80,10 +73,10 @@ export class LoginComponent {
             detail: SUCCESS_MESSAGE_LOGIN_DETAILS
           })
           if (result) {
-            setTimeout(() => {
+          setTimeout(() => {
               this.localStorageService.setItem(MY_JOURNEY_AUTH_CONSTANT, result);
-              this.router.navigate(['/']);
-            }, 2000);
+              this.router.navigate([ROUTE_DASHBOARD]);
+           }, 1000);   
           }
         }),
         catchError((error) => {
@@ -96,10 +89,43 @@ export class LoginComponent {
           return error;
         })
       )
-    );
+    ).finally(() => {
+      this.loading.update(() => false);
+    });
+
+    // const strapiAuthResult = await lastValueFrom(
+    //   this.strapiService.login(body).pipe(
+    //     map((result: IAuthProps) => {
+    //       this.messageService.add({
+    //         key: 'login', 
+    //         severity:'info', 
+    //         summary: SUCCESS_MESSAGE_LOGIN_TITLE,
+    //         detail: SUCCESS_MESSAGE_LOGIN_DETAILS
+    //       })
+    //       if (result) {
+    //         setTimeout(() => {
+    //           this.localStorageService.setItem(MY_JOURNEY_AUTH_CONSTANT, result);
+    //           this.router.navigate(['/']);
+    //         }, 2000);
+    //       }
+    //     }),
+    //     catchError((error) => {
+    //       this.messageService.add({
+    //         key: 'login', 
+    //         severity:'error', 
+    //         summary: ERROR_MESSAGE_LOGIN_FAILED_TITLE,
+    //         detail: ERROR_MESSAGE_LOGIN_EMPTY_FIELDS
+    //       })
+    //       return error;
+    //     })
+    //   )
+    // );
   }
 
   constructor() {
-    this.loginFormGroup = this.formBuilder.group(LoginForm)
+    this.loginFormGroup = this.formBuilder.group(LoginForm);
+    effect(() => {
+      console.log(this.loading());
+    });
   }
 }

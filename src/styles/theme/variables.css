@@ -7245,12 +7245,17 @@
     box-shadow: 0 0 0 1px var(--primary-color);
   }
 
+  .p-progressspinner {
+    background: var(--primary-color);
+  }  
+
   .p-progressbar {
     border: 0 none;
     height: 1.5rem;
     background: #e5e7eb;
     border-radius: 0.375rem;
   }
+
   .p-progressbar .p-progressbar-value {
     border: 0 none;
     margin: 0;

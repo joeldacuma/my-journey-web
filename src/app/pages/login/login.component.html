@@ -77,12 +77,14 @@
             </div>
             <button
               pButton
-              pRipple
               label="Sign In"
-              class="w-full p-3 text-xl"
+              [loading]="loading()"
+              pRipple
+              class="w-full p-3 text-xl justify-content-center"
               style="background: var(--primary-color)"
               type="submit"
-            ></button>
+            >
+          </button>
           </form>
         </div>
       </div>

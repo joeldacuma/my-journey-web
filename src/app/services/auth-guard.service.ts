@@ -6,6 +6,7 @@ import {
 } from "@angular/router";
 
 import { AuthService } from "@services/index";
+import { ROUTE_LOGIN } from '@constants/index';
 
 export namespace AuthGuardService {
   export const canActivate = (
@@ -21,7 +22,7 @@ export namespace AuthGuardService {
       return true;
     }
 
-    router.navigate(["/login"]);
+    router.navigate([ROUTE_LOGIN]);
     return false;
   };
 }

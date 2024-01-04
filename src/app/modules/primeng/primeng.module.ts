@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [],
@@ -27,7 +28,8 @@ import { TooltipModule } from 'primeng/tooltip';
     ToastModule,
     MessagesModule,
     MessageModule,
-    TooltipModule
+    TooltipModule,
+    ProgressSpinnerModule
   ]
 })
 export class PrimengModule { }

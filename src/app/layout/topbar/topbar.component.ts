@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { LayoutService, LocalstorageService } from '@services/index';
 import { PrimengModule } from '@modules/index';
 
+import { ROUTE_LOGIN } from '@constants/index';
+
 @Component({
   selector: 'app-topbar',
   standalone: true,
@@ -23,7 +25,7 @@ export class TopBarComponent {
 
   logout() {
     this.localstorageService.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate([ROUTE_LOGIN]);
   }
   
 }
