@@ -6,7 +6,7 @@ import {
   FormsModule,
   FormGroup,
   FormBuilder} from "@angular/forms";
-import { catchError, lastValueFrom, map } from "rxjs";
+import { catchError, lastValueFrom, map, throwError } from "rxjs";
 import { MessageService } from 'primeng/api';
 import { PrimengModule } from "@modules/index";
 import { IAgendaLoginProps, ILoginAuthProps, IAuthProps } from "@interfaces/index";
@@ -86,7 +86,7 @@ export class LoginComponent {
             summary: ERROR_MESSAGE_LOGIN_FAILED_TITLE,
             detail: ERROR_MESSAGE_LOGIN_EMPTY_FIELDS
           })
-          return error;
+          return throwError(() => error);
         })
       )
     ).finally(() => {
@@ -125,7 +125,7 @@ export class LoginComponent {
   constructor() {
     this.loginFormGroup = this.formBuilder.group(LoginForm);
     effect(() => {
-      console.log(this.loading());
+      this.loading();
     });
   }
 }

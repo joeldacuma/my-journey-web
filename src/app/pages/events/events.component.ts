@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { catchError, lastValueFrom, map } from "rxjs";
+import { IEventProps } from '@interfaces/index';
 
 import { AgendaService } from '@api/index';
 
@@ -15,19 +16,14 @@ export class EventsComponent {
   private agendaService = inject(AgendaService);
 
   ngOnInit() {
-    // this.agendaService.getEventsByPage(2, {})
-    // .subscribe((data) => {
-    //   console.log(data);
-    // })
     this.getEvents();
   }
 
-  getEvents() {
-    this.agendaService.getEventsByPage(2, {})
-    .subscribe((data: any) => {
-      return data;
-    }, error => {
-      return error;
-    })
+  async getEvents() {
+    const eventData = await lastValueFrom(
+      this.agendaService.getEventsByPage(1, {}).pipe(
+        map((result: IEventProps) => result)
+    )).catch((error) => error);
+
   }
 }
