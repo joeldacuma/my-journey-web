@@ -1,10 +1,5 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
 export class DispatcherDataService {
-  name:string;
+  public name:string;
   value: any;
 
   constructor(name:string, value: any) { 

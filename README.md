@@ -1,6 +1,6 @@
 # My Journey Web App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8 and [PrimeNG](https://primeng.org/) for Theme design system. It also using [strapi](https://strapi.io) for Content Management & .NET for API and backend integration.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8, [PrimeNG](https://primeng.org/) for components theme and [TailwindCSS](https://tailwindcss.com) for CSS design system. It is also using [strapi](https://strapi.io) for Content Management & .NET for API and backend integration.
 
 ## Environment Requirements
 - NodeJS 20+

@@ -1,8 +1,81 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <h5>Events</h5>
-      
+      <h5 style="font-weight: 600">Events</h5>
+      <div class="flex-auto">
+        <p-paginator 
+          (onPageChange)="nextPage($event)" 
+          [first]="1" 
+          [rows]="pager().pageSize" 
+          [rowsPerPageOptions]="[100]"
+          [totalRecords]="pager().totalRows">
+        </p-paginator>
+      </div>
+      <p-table 
+      [value]="events().events" 
+      [rows]="pager().pageSize" [loading]="loading()" 
+      [rowHover]="true" 
+      [paginator]="false"
+      styleClass="p-datatable-gridlines"
+      responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+         
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="min-width: 1rem">
+              <div class="flex justify-content-between align-items-center">
+                <p-tableHeaderCheckbox />
+              </div>
+            </th>
+            <th style="min-width: 12rem">
+						  <div class="flex justify-content-between align-items-center">
+								Name
+								<p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
+							</div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Category
+								<p-columnFilter type="text" field="category" display="menu" placeholder="Search by category"></p-columnFilter>                
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Location
+                <p-columnFilter type="text" field="location" display="menu" placeholder="Search by location"></p-columnFilter> 
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Date
+                <p-columnFilter type="date" field="dateTimeStart" display="menu" class="ml-auto"></p-columnFilter> 
+              </div>
+            </th>
+            <th>
+              <div class="flex justify-content-between align-items-center">
+                Attendance
+              </div>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-event>
+         <tr>
+          <td>
+            <p-tableCheckbox [value]="event"></p-tableCheckbox>
+          </td>
+          <td>{{event.name}}</td>
+          <td>{{event.category}}</td>
+          <td>{{event.location}}</td>
+          <td>{{event.dateTimeStart | date: 'MM/dd/yyyy'}}</td>
+          <td>{{event.attendance}}</td>
+         </tr>   
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+					<tr>
+						<td colspan="8">No event found.</td>
+					</tr>
+				</ng-template>
+      </p-table>
     </div>
   </div>
 </div>

@@ -17,7 +17,7 @@ export class DispatcherService {
 
   on(eventName: string, action: any): Subscription {
     return this.subject.pipe(
-      filter((e: DispatcherDataService) => e.name == eventName),
+      filter((e: DispatcherDataService) => e["name"] == eventName),
       map((e: DispatcherDataService) => e["value"])).subscribe(action);
   }
 }

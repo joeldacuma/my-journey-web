@@ -12,6 +12,8 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [],
@@ -29,7 +31,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     MessagesModule,
     MessageModule,
     TooltipModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TableModule,
+    PaginatorModule
   ]
 })
 export class PrimengModule { }

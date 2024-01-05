@@ -22,10 +22,6 @@ export class httpInterceptorService implements HttpInterceptor {
   private isRefreshing = false;
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true
-    });
-
     return next.handle(req).pipe(
       catchError((error) => {
         if (
