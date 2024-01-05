@@ -1,11 +1,13 @@
-import { Component, inject, signal, WritableSignal, effect } from '@angular/core';
+import { Component, inject, signal, WritableSignal, effect, ViewChild } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { catchError, lastValueFrom, map } from "rxjs";
 import { IEventProps } from '@interfaces/index';
-
 import { PrimengModule } from '@modules/index';
-
 import { AgendaService } from '@api/index';
+
+import { Table } from 'primeng/table';
+import { MessageService } from 'primeng/api';
+import { Paginator } from 'primeng/paginator';
 
 @Component({
   selector: 'app-events',
@@ -14,11 +16,17 @@ import { AgendaService } from '@api/index';
     CommonModule,
     PrimengModule
   ],
+  providers:[
+    MessageService
+   ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
 })
 export class EventsComponent {
+  @ViewChild('paginator', {static: false}) paginator?: Paginator;
   private agendaService = inject(AgendaService);
+  private messageService = inject(MessageService);
+  public selectedEvents: IEventProps | undefined;
   public loading = signal(true);
   public events = signal({
     events: []
@@ -30,17 +38,21 @@ export class EventsComponent {
   });
 
   ngOnInit() {
-    this.getEvents(1)
-      .then((result) => {
-        this.events.set(result);
-        this.pager.set({
-          page: 1,
-          totalRows: result.pager.totalItems,
-          pageSize: result.pager.pageSize
-        });
-        this.loading.set(false);
-    });
+    this.initializeEventTable();
   }
+
+  initializeEventTable() {
+    this.getEvents(1)
+    .then((result) => {
+      this.events.set(result);
+      this.pager.set({
+        page: 1,
+        totalRows: result.pager.totalItems,
+        pageSize: result.pager.pageSize
+      });
+      this.loading.set(false);
+  });
+  };
 
   async getEvents(pageNumber: number) {
     const eventData = await lastValueFrom(
@@ -62,9 +74,49 @@ export class EventsComponent {
           });
   }
 
+  clearFilter(table: Table) {
+    table.clear();
+  }
+
+  async deleteEvents() {
+    this.loading.update(() => true);
+    const selectedEvents: any = this.selectedEvents;
+    const eventIds: Array<any> = [];
+    selectedEvents.forEach((event: IEventProps) => {
+      eventIds.push(event.id.toString());
+    });
+
+    const deletedEvents = await lastValueFrom(
+      this.agendaService.deleteEvents(eventIds)
+         .pipe(
+            map((result) => {
+              this.messageService.add({
+                key: 'event',
+                severity:'info',
+                summary: 'Delete Events',
+                detail: 'Selected events had been removed.'
+                });
+              return result;
+            })
+          )
+      ).catch((error) => error);
+
+      if (deletedEvents) {
+        setTimeout(() => { 
+          this.getEvents(1)
+          .then((result) => {
+            this.events.update(() => result);
+            this.paginator?.changePage(0);
+            this.loading.update(() => false);
+          });
+        }, 500);
+      }
+  }
+
   constructor() {
     effect(() => {
       this.events();
+      this.pager();
     });
   }
 }

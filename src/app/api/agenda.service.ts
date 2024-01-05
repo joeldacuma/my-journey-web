@@ -35,7 +35,16 @@ export class AgendaService {
       headers: {
         'Authorization': `${this.authService.authenticatedToken()}`
       }
-    });
-  
+    });  
   }
+  
+  deleteEvents(body: Array<string>) {
+    return this.http.post(`${environment.agenda}/event/delete`, 
+    body,{
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
+  }
+
 }

@@ -49,7 +49,7 @@ export class httpInterceptorService implements HttpInterceptor {
         }),
         catchError((error) => {
           this.isRefreshing = false;
-          if (error.status = 400) {
+          if ((error.status = 403) || (error.status = 417)) {
             this.dispatcherService.emit(new DispatcherDataService('logout', null));
           }
           return throwError(() => error);
