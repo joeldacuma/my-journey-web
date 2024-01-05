@@ -26,7 +26,7 @@ export class EventsComponent {
   @ViewChild('paginator', {static: false}) paginator?: Paginator;
   private agendaService = inject(AgendaService);
   private messageService = inject(MessageService);
-  public selectedEvents: IEventProps | undefined;
+  public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
   public events = signal({
     events: []
@@ -79,6 +79,10 @@ export class EventsComponent {
   }
 
   async deleteEvents() {
+    if (this.selectedEvents.length === 0) {
+      return;
+    }
+
     this.loading.update(() => true);
     const selectedEvents: any = this.selectedEvents;
     const eventIds: Array<any> = [];
@@ -108,6 +112,7 @@ export class EventsComponent {
             this.events.update(() => result);
             this.paginator?.changePage(0);
             this.loading.update(() => false);
+            this.selectedEvents = [];
           });
         }, 500);
       }
