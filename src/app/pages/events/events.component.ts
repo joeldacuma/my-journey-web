@@ -12,12 +12,18 @@ import { IEventProps,
          ICreateEventProps } from '@interfaces/index';
 import { PrimengModule } from '@modules/index';
 import { AgendaService } from '@api/index';
-import { DELETE_EVENT_SUCCESS_TITLE, DELETE_EVENT_SUCESS_DETAILS } from '@constants/index';
+import { DELETE_EVENT_SUCCESS_TITLE, 
+         DELETE_EVENT_SUCESS_DETAILS, 
+         ERROR_CREATE_EVENT_TITLE, 
+         ERROR_CREATE_EVENT_DETAILS,
+         SUCCESS_CREATE_EVENT_TITLE,
+         SUCCESS_CREATE_EVENT_DETAILS } from '@constants/index';
 import { EventForm } from '@forms/index';
 
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
   selector: 'app-events',
@@ -37,12 +43,13 @@ import { Paginator } from 'primeng/paginator';
 })
 export class EventsComponent {
   @ViewChild('paginator', {static: false}) paginator?: Paginator;
+  @ViewChild('opEvent', {static: false}) opEvent?: OverlayPanel;
   private agendaService = inject(AgendaService);
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
   public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
-  public eventFormGroup = new FormGroup<any>(EventForm);
+  public eventFormGroup = new FormGroup<ICreateEventProps>(EventForm);
   public selectedCategory: any;
   public selectedLocation: any;
 
@@ -59,6 +66,10 @@ export class EventsComponent {
   });
 
   ngOnInit() {
+    this.initData();
+  }
+
+  initData() {
     const _PROCESS = [
       this.getEvents(1),
       this.getEventCategories(),
@@ -115,6 +126,17 @@ export class EventsComponent {
     return eventLocations;
   }
 
+  async createNewEvent(body: Object) {
+   const newEvent = await lastValueFrom(
+    this.agendaService.createEvent(body).pipe(
+      map((result: number) => {
+        return result;
+      })
+      )
+   )
+   return newEvent;
+  }
+
   async nextPage(event: any) {
     this.loading.update(() => true);
     await this.getEvents(event.page + 1)
@@ -168,8 +190,41 @@ export class EventsComponent {
       }
   }
 
-  createEvent() {
-    console.log(this.eventFormGroup.value);
+  async createEvent() {
+    this.loading.update(() => true);
+    if (!this.eventFormGroup.valid) {
+      this.messageService.add({
+        key: 'event',
+        severity:'error',
+        summary: ERROR_CREATE_EVENT_TITLE,
+        detail: ERROR_CREATE_EVENT_DETAILS
+        });
+      
+      return;
+    }
+
+    const newEventForm: any = this.eventFormGroup.value;
+    const body = {
+      dateTimeStart: newEventForm.dateTimeStart,
+      eventCategoryId: newEventForm.eventCategory.id.toString(),
+      locationId: newEventForm.location.id.toString(),
+      name: newEventForm.name
+    };
+
+    await this.createNewEvent(body)
+    .then((result: number) => {
+      if (result) {
+        this.messageService.add({
+          key: 'event',
+          severity:'info',
+          summary: SUCCESS_CREATE_EVENT_TITLE,
+          detail: SUCCESS_CREATE_EVENT_DETAILS
+          });
+          
+          this.initData();
+          this.opEvent?.hide();
+      }
+    }).catch((error) => error);
   }
 
   constructor() {

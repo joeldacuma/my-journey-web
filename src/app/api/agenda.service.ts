@@ -69,7 +69,7 @@ export class AgendaService {
   }
 
   createEvent(body: Object) {
-    return this.http.post<IEventProps>(`${environment.agenda}/event/new`,
+    return this.http.post<number>(`${environment.agenda}/event/new`,
     body, {
       headers: {
         'Authorization': `${this.authService.authenticatedToken()}`

@@ -4,12 +4,12 @@ export const EventForm = {
   name: new FormControl('', {
     validators: [Validators.required],
   }),
-  eventCategoryId: new FormControl('', {
+  eventCategory: new FormControl('', {
     validators: [
       Validators.required,
     ],
   }),
-  locationId: new FormControl('', {
+  location: new FormControl('', {
     validators: [
       Validators.required,
     ],

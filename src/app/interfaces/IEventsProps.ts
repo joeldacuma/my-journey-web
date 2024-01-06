@@ -2,6 +2,7 @@ import { ILocationProps } from './ILocationProps';
 import { IAttendanceProps } from './IAttendanceProps';
 import { IRegistrantsProps } from './IRegistrantsProps';
 import { IRsvpProps } from './IRsvpProps';
+import { FormControl } from '@angular/forms';
 
 export interface IEventProps {
   id: number;
@@ -28,10 +29,10 @@ export interface IEventProps {
 };
 
 export interface ICreateEventProps {
-  name: string;
-  dateTimeStart: string;
-  eventCategoryId: number;
-  locationId: number;
+  name: FormControl<string | null>;
+  dateTimeStart: FormControl<string| null>;
+  eventCategory: FormControl<string | null>;
+  location: FormControl<string | null>;
 };
 
 export interface IEventGroupProps {

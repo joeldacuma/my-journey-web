@@ -16,6 +16,10 @@ export const SUCCESS_MESSAGE_LOGIN_TITLE = 'Login Successful';
 export const SUCCESS_MESSAGE_LOGIN_DETAILS = 'Redirecting to home...';
 export const DELETE_EVENT_SUCCESS_TITLE = 'Event Deleted';
 export const DELETE_EVENT_SUCESS_DETAILS = 'Selected events had been removed.';
+export const ERROR_CREATE_EVENT_TITLE = 'Error Creating Event';
+export const ERROR_CREATE_EVENT_DETAILS = 'Please check your inputs.';
+export const SUCCESS_CREATE_EVENT_TITLE = 'Event Created';
+export const SUCCESS_CREATE_EVENT_DETAILS = 'Event had been created.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';
