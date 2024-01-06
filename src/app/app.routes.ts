@@ -25,6 +25,22 @@ export const routes: Routes = [
       {
         path: 'locations',
         loadComponent: () => import('./pages/locations/locations.component').then(m => m.LocationsComponent)
+      },
+      {
+        path: 'personal',
+        loadComponent: () => import('./pages/personal/personal.component').then(m => m.PersonalComponent)
+      },
+      {
+        path: 'group',
+        loadComponent: () => import('./pages/group/group.component').then(m => m.GroupComponent)
+      },
+      {
+        path: 'coaching',
+        loadComponent: () => import('./pages/coaching/coaching.component').then(m => m.CoachingComponent)
+      },
+      {
+        path: 'finder',
+        loadComponent: () => import('./pages/finder/finder.component').then(m => m.FinderComponent)
       }
     ],
     canActivate: [AuthGuardService.canActivate]

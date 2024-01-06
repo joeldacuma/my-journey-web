@@ -1,7 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { ILoginAuthProps, IEventProps } from '@interfaces/index';
+import { ILoginAuthProps, 
+         IEventProps, 
+         IEventCategoryProps,
+         IEventLocationProps } from '@interfaces/index';
 import { environment } from 'environments/environment';
 
 import { AuthService } from '@services/index';
@@ -44,6 +47,33 @@ export class AgendaService {
       headers: {
         'Authorization': `${this.authService.authenticatedToken()}`
       }
+    });
+  }
+
+  getEventCategories(body: Object) {
+    return this.http.post<IEventCategoryProps>(`${environment.agenda}/eventcategory/find`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  getEventLocations(body: Object) {
+    return this.http.post<IEventLocationProps>(`${environment.agenda}/location/find`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });   
+  }
+
+  createEvent(body: Object) {
+    return this.http.post<IEventProps>(`${environment.agenda}/event/new`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
     });
   }
 

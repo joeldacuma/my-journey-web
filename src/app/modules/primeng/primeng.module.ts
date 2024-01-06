@@ -14,6 +14,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
+import { TagModule } from 'primeng/tag';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [],
@@ -33,7 +36,10 @@ import { PaginatorModule } from 'primeng/paginator';
     TooltipModule,
     ProgressSpinnerModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
+    TagModule,
+    OverlayPanelModule,
+    DropdownModule
   ]
 })
 export class PrimengModule { }

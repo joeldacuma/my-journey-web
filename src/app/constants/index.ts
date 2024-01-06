@@ -14,6 +14,8 @@ export const ERROR_MESSAGE_LOGIN_FAILED_TITLE = 'Error Logging In';
 export const ERROR_MESSAGE_LOGIN_EMPTY_FIELDS = 'Invalid credentials.';
 export const SUCCESS_MESSAGE_LOGIN_TITLE = 'Login Successful';
 export const SUCCESS_MESSAGE_LOGIN_DETAILS = 'Redirecting to home...';
+export const DELETE_EVENT_SUCCESS_TITLE = 'Event Deleted';
+export const DELETE_EVENT_SUCESS_DETAILS = 'Selected events had been removed.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

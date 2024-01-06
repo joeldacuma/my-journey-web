@@ -27,6 +27,13 @@ export interface IEventProps {
   rsvp: [IRsvpProps];
 };
 
+export interface ICreateEventProps {
+  name: string;
+  dateTimeStart: string;
+  eventCategoryId: number;
+  locationId: number;
+};
+
 export interface IEventGroupProps {
   eventId: number;
   groupId: number;
@@ -35,19 +42,22 @@ export interface IEventGroupProps {
 }
 
 export interface IEventCategoryProps {
-  id: string;
+  id: number;
   name: string;
-  description: string;
-  allowMemberToLogOnMultipleEvents: boolean;
-  allowSectionOverlapping: boolean;
-  dateTimeCreated: string;
-  createdBy: string;
-  dateTimeModified: string;
-  modifiedBy: string;
-  communityId: number;
-  event: [IEventProps];
-  eventCategoryReport: [IEventCategoryReportProps];
-  eventSection: [IEventSectionProps];
+  events: number;
+  minAttendees: number;
+  averageAttendees: number;
+  maxAttendees: number;
+};
+
+export interface IEventLocationProps {
+  id: number;
+  name: string;
+  address: string;
+  events: number;
+  minAttendees: number;
+  averageAttendees: number;
+  maxAttendees: number;
 };
 
 export interface IEventCategoryReportProps {

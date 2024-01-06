@@ -1090,6 +1090,7 @@
     border: 1px solid #d4d4d8;
     transition: none;
     border-radius: 0.375rem;
+    width: 20rem;
   }
   .p-dropdown:not(.p-disabled):hover {
     border-color: #d4d4d8;
@@ -1126,6 +1127,11 @@
     color: #71717a;
     right: 3rem;
   }
+
+  .p-dropdown .p-component .p-inputwrapper .p-dropdown-clearable {
+    width: 20rem;
+  }
+
   .p-dropdown.p-invalid.p-component {
     border-color: #f0a9a7;
   }

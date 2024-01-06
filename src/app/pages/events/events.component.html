@@ -15,15 +15,88 @@
       styleClass="p-datatable-gridlines"
       responsiveLayout="scroll">
         <ng-template pTemplate="caption">
+          <button pButton pRipple label="New" class="mb-2 p-button-primary p-button-raised" icon="pi pi-fw pi-plus" (click)="opEvent.toggle($event)"></button>
+          <p-overlayPanel #opEvent [showCloseIcon]="true">
+            <ng-template pTemplate="content">
+              <div class="formgrid grid">
+                  <div class="flex flex-column flex-wrap gap-2">
+                    <h4 class="m-2">New Event</h4>
+                    <div class="col-12 md: col-6">
+                        <div class="flex flex-column gap-2 mb-2">
+                          <label class="font-bold">Title</label>
+                          <input class="w-20rem" pInputText type="text" placeholder="Enter an event name" />
+                        </div>
+                        <div class="flex flex-column gap-2 mb-2">
+                          <label class="font-bold">Category</label>
+                          <p-dropdown
+                          [options]="events().categories" 
+                          [(ngModel)]="selectedCategory" 
+                          [showClear]="true" 
+                          placeholder="Select a category">
+                          <ng-template class="w-20rem" pTemplate="selectedItem">
+                            <div class="flex align-items-center gap-2" *ngIf="selectedCategory">
+                              <div>{{ selectedCategory.name }}</div>
+                            </div>
+                          </ng-template>
+                          <ng-template class="w-20rem" let-category pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                              <div>{{ category.name }}</div>
+                            </div>
+                          </ng-template>
+                          </p-dropdown>
+                        </div>
+                        <div class="flex flex-column gap-2 mb-2">
+                          <label class="font-bold">Locations</label>
+                          <p-dropdown
+                          [options]="events().locations" 
+                          [(ngModel)]="selectedLocation" 
+                          [showClear]="true" 
+                          placeholder="Select a location">
+                          <ng-template class="w-20rem" pTemplate="selectedItem">
+                            <div class="flex align-items-center gap-2" *ngIf="selectedLocation">
+                              <div>{{ selectedLocation.name }}</div>
+                            </div>
+                          </ng-template>
+                          <ng-template class="w-20rem" let-location pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                              <div>{{ location.name }}</div>
+                            </div>
+                          </ng-template>
+                          </p-dropdown>
+                        </div>
+                        <div class="flex flex-column gap-2 mb-2">
+                          <label class="font-bold">Date</label>
+                          <input class="w-20rem" pInputText type="datetime-local" placeholder="Enter an date" />
+                        </div>
+                        <div class="flex flex-column gap-2 m-4">
+                          <button pButton pRipple type="button" label="Create Now" class="p-button-raised"></button>                      
+                        </div>
+                    </div>
+                  </div>
+              </div>  
+            </ng-template>
+          </p-overlayPanel>
+          <button 
+            pButton
+            pRipple 
+            [disabled]="(selectedEvents.length) ? false : true" 
+            label="Delete" 
+            color="danger" 
+            class="m-2 p-button-danger p-button-raised" 
+            icon="pi pi-fw pi-trash" 
+            (click)="deleteEvents()">
+          </button>
           <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clearFilter(eventDataTable)"></button>
-          <button pButton label="New" class="m-2 p-button-primary" icon="pi pi-fw pi-plus"></button>
-          <button pButton [disabled]="(selectedEvents.length) ? false : true" label="Delete" color="danger" class="mb-2 p-button-danger" icon="pi pi-fw pi-trash" (click)="deleteEvents()"></button>
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
             <th style="min-width: 1rem">
               <div class="flex justify-content-between align-items-center">
                 <p-tableHeaderCheckbox />
+              </div>
+            </th>
+            <th style="min-width: 2rem">
+              <div class="flex justify-content-between align-items-center">
               </div>
             </th>
             <th style="min-width: 12rem">
@@ -60,6 +133,35 @@
          <tr>
           <td>
             <p-tableCheckbox [value]="event"></p-tableCheckbox>
+          </td>
+          <td>
+            <div class="flex justify-content-between align-items-center">
+              <p-tag 
+                tooltipPosition="bottom" 
+                [pTooltip]="tooltipEditEvent" 
+                class="m-1 cursor-pointer" 
+                icon="pi pi-file" 
+                severity="info">
+                  <ng-template #tooltipEditEvent>
+                    <div class="flex align-items-center">
+                      <span>Edit</span>
+                    </div>                  
+                  </ng-template>
+              </p-tag>
+              <p-tag 
+                tooltipPosition="bottom" 
+                [pTooltip]="tooltipAttendanceEvent" 
+                class="m-1 cursor-pointer" 
+                icon="pi pi-user-edit" 
+                severity="warning">
+                <ng-template #tooltipAttendanceEvent>
+                  <div class="flex align-items-center">
+                    <span>Attendance</span>
+                  </div>                  
+                </ng-template>              
+              </p-tag>
+            </div>
+
           </td>
           <td>{{event.name}}</td>
           <td>{{event.category}}</td>
