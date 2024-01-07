@@ -51,6 +51,7 @@ export class EventsComponent {
   private formBuilder = inject(FormBuilder);
   public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
+  public loadingAttendance = signal(true);
   public eventFormGroup = new FormGroup<ICreateEventProps>(EventForm);
   public metaKeySelection: boolean = true;
   public isDialogAttendance = false;
@@ -110,7 +111,7 @@ export class EventsComponent {
       });
 
       this.loading.set(false);
-      this.loading.set(false);
+      this.loadingAttendance.set(false);
     });
   }
 
@@ -182,18 +183,18 @@ export class EventsComponent {
   }
 
   async nextPageAttendance(event: any) {
-    this.loading.update(() => true);
+    this.loadingAttendance.update(() => true);
     await this.getEventAttendance(this.diaLogAttendance().id, event.page + 1, {})
           .then((result) => {
             this.attendanceEvents.update(() => result);
-            this.loading.update(() => false);
+            this.loadingAttendance.update(() => false);
           });
   };
 
   async clearFilter(table: Table) {
     table.clear();
     if (this.searchAttendanceName) {
-      this.loading.update(() => true);
+      this.loadingAttendance.update(() => true);
       this.searchAttendanceName = '';
       const attendanceMembers = await this.getEventAttendance(
         this.diaLogAttendance().id, 1,{});
@@ -206,7 +207,7 @@ export class EventsComponent {
           pageSize: attendanceMembers.pager.pageSize
         });
   
-        this.loading.update(() => false);
+        this.loadingAttendance.update(() => false);
       }
     }
   }
@@ -289,7 +290,7 @@ export class EventsComponent {
   }
 
   async showAttendance(event: any) {
-    this.loading.update(() => true);
+    this.loadingAttendance.update(() => true);
     this.diaLogAttendance.set({
       id: event.id,
       name: event.name,
@@ -308,7 +309,7 @@ export class EventsComponent {
         pageSize: attendanceMembers.pager.pageSize
       });
 
-      this.loading.update(() => false);
+      this.loadingAttendance.update(() => false);
     }
   }
 
@@ -342,7 +343,7 @@ export class EventsComponent {
   }
 
   async globalAttendanceFilter() {
-    this.loading.update(() => true);
+    this.loadingAttendance.update(() => true);
     const attendanceMembers = await this.getEventAttendance(
       this.diaLogAttendance().id, 1, (this.searchAttendanceName) ? `"${this.searchAttendanceName}"` : {}
     );
@@ -355,7 +356,7 @@ export class EventsComponent {
         pageSize: attendanceMembers.pager.pageSize
       });
 
-      this.loading.update(() => false);
+      this.loadingAttendance.update(() => false);
     }
   }
 
@@ -364,8 +365,6 @@ export class EventsComponent {
     effect(() => {
       this.events();
       this.pager();
-      this.loading();
-      this.loading();
       this.attendanceEvents();
     });
   }
