@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ILoginAuthProps, 
          IEventProps, 
          IEventCategoryProps,
-         IEventLocationProps } from '@interfaces/index';
+         IEventLocationProps,
+         IAttendanceEventProps } from '@interfaces/index';
 import { environment } from 'environments/environment';
 
 import { AuthService } from '@services/index';
@@ -68,6 +69,16 @@ export class AgendaService {
     });   
   }
 
+  getEventAttendanceByPage(id: number, page: number, body: Object) {
+    return this.http.post<IAttendanceEventProps>(`${environment.agenda}/attendance/${id}/search/page/` + page,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`,
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   createEvent(body: Object) {
     return this.http.post<number>(`${environment.agenda}/event/new`,
     body, {
@@ -77,4 +88,21 @@ export class AgendaService {
     });
   }
 
+  tagAttendedToEvent(id: number, body: Object) {
+    return this.http.put<number>(`${environment.agenda}/attendance/${id}/add`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  removeTagAttendedToEvent(id: number, body: Object) {
+    return this.http.post<number>(`${environment.agenda}/attendance/${id}/delete`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
 }

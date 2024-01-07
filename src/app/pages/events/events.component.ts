@@ -1,12 +1,14 @@
-import { Component, inject, signal, computed, effect, ViewChild } from '@angular/core';
+import { Component, inject, signal, effect, ViewChild } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { catchError, lastValueFrom, map } from "rxjs";
+import { lastValueFrom, map } from "rxjs";
 import {
   ReactiveFormsModule,
   FormsModule,
   FormGroup,
   FormBuilder} from "@angular/forms";
+import moment from 'moment';
 import { IEventProps, 
+         IAttendanceEventProps,
          IEventCategoryProps, 
          IEventLocationProps,
          ICreateEventProps } from '@interfaces/index';
@@ -50,9 +52,14 @@ export class EventsComponent {
   public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
   public eventFormGroup = new FormGroup<ICreateEventProps>(EventForm);
-  public selectedCategory: any;
-  public selectedLocation: any;
-
+  public metaKeySelection: boolean = true;
+  public isDialogAttendance = false;
+  public attendanceCount = 0;
+  public diaLogAttendance = signal({
+    id: 0,
+    name: '',
+    attendance: 0
+  });
   public events = signal({
     events: [],
     categories: [] || null,
@@ -64,6 +71,20 @@ export class EventsComponent {
    totalRows: 0,
    pageSize: 100
   });
+  public attendancePager = signal({
+    page: 1,
+    totalRows: 0,
+    pageSize: 100
+  });
+  public attendanceEvents = signal({
+    registrants: [],
+    pager: {}
+  });
+  public searchAttendanceName: string = '';
+
+  public selectedCategory: any; // To change
+  public selectedLocation: any; // To change
+  public selectedMembers: any; // To change
 
   ngOnInit() {
     this.initData();
@@ -73,7 +94,7 @@ export class EventsComponent {
     const _PROCESS = [
       this.getEvents(1),
       this.getEventCategories(),
-      this.getEventLocations()
+      this.getEventLocations(),
     ];
 
     Promise.all(_PROCESS)
@@ -87,6 +108,8 @@ export class EventsComponent {
         totalRows: events.pager.totalItems,
         pageSize: events.pager.pageSize
       });
+
+      this.loading.set(false);
       this.loading.set(false);
     });
   }
@@ -126,6 +149,18 @@ export class EventsComponent {
     return eventLocations;
   }
 
+  async getEventAttendance(id: number, page: number, body: any) {
+    const eventAttendance = await lastValueFrom(
+      this.agendaService.getEventAttendanceByPage(id, page, body).pipe(
+        map((result: IAttendanceEventProps) => {
+          return result;
+        })
+      )
+    ).catch((error) => error);
+
+    return eventAttendance;
+  }
+
   async createNewEvent(body: Object) {
    const newEvent = await lastValueFrom(
     this.agendaService.createEvent(body).pipe(
@@ -146,8 +181,34 @@ export class EventsComponent {
           });
   }
 
-  clearFilter(table: Table) {
+  async nextPageAttendance(event: any) {
+    this.loading.update(() => true);
+    await this.getEventAttendance(this.diaLogAttendance().id, event.page + 1, {})
+          .then((result) => {
+            this.attendanceEvents.update(() => result);
+            this.loading.update(() => false);
+          });
+  };
+
+  async clearFilter(table: Table) {
     table.clear();
+    if (this.searchAttendanceName) {
+      this.loading.update(() => true);
+      this.searchAttendanceName = '';
+      const attendanceMembers = await this.getEventAttendance(
+        this.diaLogAttendance().id, 1,{});
+    
+      this.attendanceEvents.set({...attendanceMembers});
+      if (attendanceMembers) {
+        this.attendancePager.set({
+          page: 1,
+          totalRows: attendanceMembers.pager.totalItems,
+          pageSize: attendanceMembers.pager.pageSize
+        });
+  
+        this.loading.update(() => false);
+      }
+    }
   }
 
   async deleteEvents() {
@@ -227,11 +288,85 @@ export class EventsComponent {
     }).catch((error) => error);
   }
 
+  async showAttendance(event: any) {
+    this.loading.update(() => true);
+    this.diaLogAttendance.set({
+      id: event.id,
+      name: event.name,
+      attendance: event.attendance
+    });
+    this.attendanceCount = event.attendance;
+    this.isDialogAttendance = true;
+
+    const attendanceMembers = await this.getEventAttendance(event.id, 1, {});
+    this.attendanceEvents.set({...attendanceMembers});
+
+    if (attendanceMembers) {
+      this.attendancePager.set({
+        page: 1,
+        totalRows: attendanceMembers.pager.totalItems,
+        pageSize: attendanceMembers.pager.pageSize
+      });
+
+      this.loading.update(() => false);
+    }
+  }
+
+  async onClickMemberAttendance(selected: any) {
+    if (!selected.dateTimeLogged) {
+      this.attendanceCount = this.attendanceCount + 1;
+      selected.dateTimeLogged = moment(new Date()).format('MM/DD/YYYY, h:mm:ss a');
+      const body = {
+        dateTimeLogged: selected.dateTimeLogged,
+        memberId: selected.memberId
+      };
+      const tagAttended = await lastValueFrom(
+        this.agendaService.tagAttendedToEvent(this.diaLogAttendance().id, body).pipe(
+          map((result: number) => {
+            return result;
+          })
+        )).catch((error) => error);
+    } else {
+      this.attendanceCount = this.attendanceCount - 1;
+      selected.dateTimeLogged = null; 
+      const body = {
+        memberId: selected.memberId
+      };     
+      const untagAttended = await lastValueFrom(
+        this.agendaService.removeTagAttendedToEvent(this.diaLogAttendance().id, body).pipe(
+          map((result: number) => {
+            return result;
+          })
+        )).catch((error) => error); 
+    }
+  }
+
+  async globalAttendanceFilter() {
+    this.loading.update(() => true);
+    const attendanceMembers = await this.getEventAttendance(
+      this.diaLogAttendance().id, 1, (this.searchAttendanceName) ? `"${this.searchAttendanceName}"` : {}
+    );
+  
+    this.attendanceEvents.set({...attendanceMembers});
+    if (attendanceMembers) {
+      this.attendancePager.set({
+        page: 1,
+        totalRows: attendanceMembers.pager.totalItems,
+        pageSize: attendanceMembers.pager.pageSize
+      });
+
+      this.loading.update(() => false);
+    }
+  }
+
   constructor() {
     this.eventFormGroup = this.formBuilder.group(EventForm);
     effect(() => {
       this.events();
       this.pager();
+      this.loading();
+      this.loading();
+      this.attendanceEvents();
     });
   }
 }

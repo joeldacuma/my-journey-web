@@ -14,3 +14,9 @@ export interface IAttendanceProps {
   member: {},
   firstTimer: {}
 }
+
+export interface IAttendanceEventProps {
+  name: string;
+  memberId: number;
+  dateTimeLogged: string;
+}

@@ -17,6 +17,9 @@ import { PaginatorModule } from 'primeng/paginator';
 import { TagModule } from 'primeng/tag';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
   declarations: [],
@@ -39,7 +42,10 @@ import { DropdownModule } from 'primeng/dropdown';
     PaginatorModule,
     TagModule,
     OverlayPanelModule,
-    DropdownModule
+    DropdownModule,
+    DialogModule,
+    InputGroupModule,
+    InputGroupAddonModule
   ]
 })
 export class PrimengModule { }
