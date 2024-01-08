@@ -26,15 +26,36 @@
            <ng-template pTemplate="caption">
             <div class="flex justify-content-between flex-column sm:flex-row">
               <div class="flex flex-column">
-                <button pButton label="Clear" class="p-button-outlined mb-3" icon="pi pi-filter-slash" (click)="clearFilter(attendanceDataTable)"></button>
-                <span>Attendance: {{attendanceCount}}</span>
+                <button 
+                pButton 
+                label="Clear" 
+                class="p-button-outlined mb-3" 
+                icon="pi pi-filter-slash" 
+                (click)="clearFilter(attendanceDataTable)">
+                </button>
+                <button
+                tooltipPosition="bottom" 
+                [pTooltip]="tooltipNewGuests" 
+                 pButton 
+                 pRipple 
+                 type="button"
+                 color="primary" 
+                 icon="pi pi-user-plus" 
+                 class="p-button-rounded p-button-info">
+                 <ng-template #tooltipNewGuests>
+                  <div class="flex align-items-center">
+                    <span>New Guests</span>
+                  </div>                  
+                </ng-template>                 
+                </button>
               </div>
-              <div>
-                <p-inputGroup>
+              <div class="flex flex-column align-items-end">
+                <p-inputGroup class="mb-3">
                     <button pRipple type="button" pButton label="Search" (click)="globalAttendanceFilter()"></button>
                     <input [(ngModel)]="searchAttendanceName" type="text" pInputText placeholder="Search name..." />
                 </p-inputGroup>
-            </div>
+                <span>Attendance: {{attendanceCount}}</span>
+              </div>
             </div>
            </ng-template>
            <ng-template pTemplate="header">
@@ -92,7 +113,7 @@
             >
           </p-paginator>
         </div>       
-        </p-dialog>
+      </p-dialog>
       <p-table
         #eventDataTable 
         [(selection)]="selectedEvents"
