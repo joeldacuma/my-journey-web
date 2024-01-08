@@ -105,4 +105,13 @@ export class AgendaService {
       }      
     });
   }
+
+  addMember(body: Object) {
+    return this.http.post<number>(`${environment.agenda}/member/new`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
 }

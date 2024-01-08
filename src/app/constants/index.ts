@@ -20,9 +20,27 @@ export const ERROR_CREATE_EVENT_TITLE = 'Error Creating Event';
 export const ERROR_CREATE_EVENT_DETAILS = 'Please check your inputs.';
 export const SUCCESS_CREATE_EVENT_TITLE = 'Event Created';
 export const SUCCESS_CREATE_EVENT_DETAILS = 'Event had been created.';
+export const ERROR_CREATE_GUEST_TITLE = 'Error Creating Guest';
+export const ERROR_CREATE_GUEST_DETAILS = 'Please check your inputs fields.';
+export const SUCCESS_CREATE_GUEST_TITLE = 'New Guest Registered';
+export const SUCCESS_CREATE_GUEST_DETAILS = 'Guest had been created.';
+export const ERROR_GENERIC_TITLE = 'Error on Request';
+export const ERROR_GENERIC_DETAILS = 'Please contact the administrator.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';
 export const ROUTE_DASHBOARD = '/';
 export const ROUTE_LOGIN = '/login';
+
+// SELECTION
+export const GENDER_SELECTION = [
+ {
+    id: 3,
+    label: 'Male'
+ },
+ {
+    id: 4,
+    label: 'Female'
+ }
+];
 

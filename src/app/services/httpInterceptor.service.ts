@@ -23,11 +23,11 @@ export class httpInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((error) => {
+      catchError((error: any) => {
         if (
            error.status = 412 &&
            error instanceof HttpErrorResponse &&
-           !req.url.includes('authentication/signin')
+           !req.url.includes('authentication')
         ) {
           return this.handle412Error(req, next);
         }

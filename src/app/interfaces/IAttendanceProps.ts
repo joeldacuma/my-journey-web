@@ -1,4 +1,5 @@
 import { IEventProps } from './IEventsProps';
+import { FormControl } from '@angular/forms';
 
 export interface IAttendanceProps {
   id: number;
@@ -19,4 +20,16 @@ export interface IAttendanceEventProps {
   name: string;
   memberId: number;
   dateTimeLogged: string;
+}
+
+export interface IGuestAttendanceProps {
+  name: FormControl<string | null>;
+  address: FormControl<string| null>;
+  birthDate: FormControl<string | null>;
+  email: FormControl<string | null>;
+  gender: FormControl<string | null>;
+  invitedByMemberName: FormControl<string | null>;
+  mobile: FormControl<string | null>;
+  nickName: FormControl<string | null>;
+  remarks: FormControl<string | null>;
 }

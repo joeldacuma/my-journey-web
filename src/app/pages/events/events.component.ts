@@ -7,7 +7,8 @@ import {
   FormGroup,
   FormBuilder} from "@angular/forms";
 import moment from 'moment';
-import { IEventProps, 
+import { IEventProps,
+         IGuestAttendanceProps,
          IAttendanceEventProps,
          IEventCategoryProps, 
          IEventLocationProps,
@@ -19,8 +20,15 @@ import { DELETE_EVENT_SUCCESS_TITLE,
          ERROR_CREATE_EVENT_TITLE, 
          ERROR_CREATE_EVENT_DETAILS,
          SUCCESS_CREATE_EVENT_TITLE,
-         SUCCESS_CREATE_EVENT_DETAILS } from '@constants/index';
-import { EventForm } from '@forms/index';
+         SUCCESS_CREATE_EVENT_DETAILS,
+         ERROR_CREATE_GUEST_TITLE,
+         ERROR_CREATE_GUEST_DETAILS,
+         SUCCESS_CREATE_GUEST_TITLE,
+         SUCCESS_CREATE_GUEST_DETAILS,
+         ERROR_GENERIC_TITLE,
+         ERROR_GENERIC_DETAILS,
+         GENDER_SELECTION } from '@constants/index';
+import { EventForm, GuestForm } from '@forms/index';
 
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
@@ -46,6 +54,7 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 export class EventsComponent {
   @ViewChild('paginator', {static: false}) paginator?: Paginator;
   @ViewChild('opEvent', {static: false}) opEvent?: OverlayPanel;
+  @ViewChild('guestForm', {static: false}) guestForm?: OverlayPanel;
   private agendaService = inject(AgendaService);
   private messageService = inject(MessageService);
   private formBuilder = inject(FormBuilder);
@@ -53,6 +62,7 @@ export class EventsComponent {
   public loading = signal(true);
   public loadingAttendance = signal(true);
   public eventFormGroup = new FormGroup<ICreateEventProps>(EventForm);
+  public guestFormGroup = new FormGroup<IGuestAttendanceProps>(GuestForm);
   public metaKeySelection: boolean = true;
   public isDialogAttendance = false;
   public attendanceCount = 0;
@@ -81,7 +91,9 @@ export class EventsComponent {
     registrants: [],
     pager: {}
   });
+
   public searchAttendanceName: string = '';
+  public genderSelection = GENDER_SELECTION;
 
   public selectedCategory: any; // To change
   public selectedLocation: any; // To change
@@ -173,6 +185,17 @@ export class EventsComponent {
    return newEvent;
   }
 
+  async createMember(body: Object) {
+    const newMember = await lastValueFrom(
+      this.agendaService.addMember(body).pipe(
+        map((result: number) => {
+          return result;
+        })
+        )
+     )
+     return newMember;
+  }
+
   async nextPage(event: any) {
     this.loading.update(() => true);
     await this.getEvents(event.page + 1)
@@ -262,6 +285,7 @@ export class EventsComponent {
         detail: ERROR_CREATE_EVENT_DETAILS
         });
       
+      this.loading.update(() => false);
       return;
     }
 
@@ -301,7 +325,6 @@ export class EventsComponent {
 
     const attendanceMembers = await this.getEventAttendance(event.id, 1, {});
     this.attendanceEvents.set({...attendanceMembers});
-
     if (attendanceMembers) {
       this.attendancePager.set({
         page: 1,
@@ -313,20 +336,24 @@ export class EventsComponent {
     }
   }
 
+  async tagAttendedToEvent(selected: any) {
+    this.attendanceCount = this.attendanceCount + 1;
+    selected.dateTimeLogged = moment(new Date()).format('MM/DD/YYYY, h:mm:ss a');
+    const body = {
+      dateTimeLogged: selected.dateTimeLogged,
+      memberId: selected.memberId
+    };
+    const tagAttended = await lastValueFrom(
+      this.agendaService.tagAttendedToEvent(this.diaLogAttendance().id, body).pipe(
+        map((result: number) => {
+          return result;
+        })
+      )).catch((error) => error);
+  }
+
   async onClickMemberAttendance(selected: any) {
     if (!selected.dateTimeLogged) {
-      this.attendanceCount = this.attendanceCount + 1;
-      selected.dateTimeLogged = moment(new Date()).format('MM/DD/YYYY, h:mm:ss a');
-      const body = {
-        dateTimeLogged: selected.dateTimeLogged,
-        memberId: selected.memberId
-      };
-      const tagAttended = await lastValueFrom(
-        this.agendaService.tagAttendedToEvent(this.diaLogAttendance().id, body).pipe(
-          map((result: number) => {
-            return result;
-          })
-        )).catch((error) => error);
+      this.tagAttendedToEvent(selected);
     } else {
       this.attendanceCount = this.attendanceCount - 1;
       selected.dateTimeLogged = null; 
@@ -360,8 +387,70 @@ export class EventsComponent {
     }
   }
 
+  async createGuest() {
+    this.loadingAttendance.update(() => true);
+    if (!this.guestFormGroup.valid) {
+      this.messageService.add({
+        key: 'guest',
+        severity:'error',
+        summary: ERROR_CREATE_GUEST_TITLE,
+        detail: ERROR_CREATE_GUEST_DETAILS
+        });
+        this.loadingAttendance.update(() => false);
+      return;
+    }
+
+    this.guestForm?.hide();
+    const guestValue:any = this.guestFormGroup.value;
+    const body = {
+      name: guestValue.name,
+      nickName: guestValue.nickName,
+      birthDate: guestValue.birthDate,
+      email: guestValue.email,
+      address: guestValue.address,
+      gender: guestValue.gender.id.toString(),
+      mobile: guestValue.mobile,
+      remarks: guestValue.remarks,
+      invtedBy: guestValue.invtedBy,
+    }
+
+    const member = await this.createMember(body)
+          .then((result: any) => {
+            if (result) {
+              this.messageService.add({
+                key: 'guest',
+                severity:'info',
+                summary: SUCCESS_CREATE_GUEST_TITLE,
+                detail: SUCCESS_CREATE_GUEST_DETAILS
+                });
+
+                this.guestFormGroup.reset();
+                this.loadingAttendance.update(() => false);
+              
+             return result;
+            }
+          })
+          .catch((error) => {
+            this.messageService.add({
+              key: 'guest',
+              severity:'error',
+              summary: ERROR_GENERIC_TITLE,
+              detail: ERROR_GENERIC_DETAILS
+              });
+
+              this.loadingAttendance.update(() => false);
+              return error;
+          });
+    const _member = {
+      dateTimeLogged: '',
+      memberId: member
+    };
+    this.tagAttendedToEvent(_member);
+  }
+
   constructor() {
     this.eventFormGroup = this.formBuilder.group(EventForm);
+    this.guestFormGroup = this.formBuilder.group(GuestForm);
     effect(() => {
       this.events();
       this.pager();
