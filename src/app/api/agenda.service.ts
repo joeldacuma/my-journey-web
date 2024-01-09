@@ -88,6 +88,15 @@ export class AgendaService {
     });
   }
 
+  updateEvent(body: Object) {
+    return this.http.post(`${environment.agenda}/event/edit`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    }); 
+  }
+
   tagAttendedToEvent(id: number, body: Object) {
     return this.http.put<number>(`${environment.agenda}/attendance/${id}/add`,
     body, {

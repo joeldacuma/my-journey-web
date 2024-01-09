@@ -26,6 +26,10 @@ export const SUCCESS_CREATE_GUEST_TITLE = 'New Guest Registered';
 export const SUCCESS_CREATE_GUEST_DETAILS = 'Guest had been created.';
 export const ERROR_GENERIC_TITLE = 'Error on Request';
 export const ERROR_GENERIC_DETAILS = 'Please contact the administrator.';
+export const ERROR_UPDATE_EVENT_TITLE = 'Error Updating Event';
+export const ERROR_UPDATE_EVENT_DETAILS = 'Please check your inputs.';
+export const SUCCESS_UPDATE_EVENT_TITLE = 'Event Updated';
+export const SUCCESS_UPDATE_EVENT_DETAILS = 'Event had been updated.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

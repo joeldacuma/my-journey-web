@@ -25,8 +25,12 @@ import { DELETE_EVENT_SUCCESS_TITLE,
          ERROR_CREATE_GUEST_DETAILS,
          SUCCESS_CREATE_GUEST_TITLE,
          SUCCESS_CREATE_GUEST_DETAILS,
+         SUCCESS_UPDATE_EVENT_TITLE,
+         SUCCESS_UPDATE_EVENT_DETAILS,
          ERROR_GENERIC_TITLE,
          ERROR_GENERIC_DETAILS,
+         ERROR_UPDATE_EVENT_TITLE,
+         ERROR_UPDATE_EVENT_DETAILS,
          GENDER_SELECTION } from '@constants/index';
 import { EventForm, GuestForm } from '@forms/index';
 
@@ -65,6 +69,7 @@ export class EventsComponent {
   public guestFormGroup = new FormGroup<IGuestAttendanceProps>(GuestForm);
   public metaKeySelection: boolean = true;
   public isDialogAttendance = false;
+  public isEditEvent = false;
   public attendanceCount = 0;
   public diaLogAttendance = signal({
     id: 0,
@@ -92,12 +97,19 @@ export class EventsComponent {
     pager: {}
   });
 
+  public EVENT_TOASTS = [
+   'event',
+    'guest'
+  ];
+
   public searchAttendanceName: string = '';
+  public editEventTitleModal: string = '';
   public genderSelection = GENDER_SELECTION;
 
   public selectedCategory: any; // To change
   public selectedLocation: any; // To change
   public selectedMembers: any; // To change
+  public selectedEvent: any; // To change
 
   ngOnInit() {
     this.initData();
@@ -307,10 +319,23 @@ export class EventsComponent {
           detail: SUCCESS_CREATE_EVENT_DETAILS
           });
           
+          this.eventFormGroup.reset();
           this.initData();
           this.opEvent?.hide();
       }
     }).catch((error) => error);
+  }
+
+  async updateEvent(body: Object) {
+    const updatedEvent = await lastValueFrom(
+      this.agendaService.updateEvent(body).pipe(
+        map((result) => {
+          return result;
+        })
+      )
+    ).catch((error) => error);
+
+    return updatedEvent;
   }
 
   async showAttendance(event: any) {
@@ -334,6 +359,64 @@ export class EventsComponent {
 
       this.loadingAttendance.update(() => false);
     }
+  }
+
+  async editEvent(event: any) {
+  this.selectedEvent = event;
+   const categories = this.events().categories;
+   const locations = this.events().locations;
+   const categoryFiltered = categories.filter((category: any) => category.id === event.eventCategoryId);
+   const locationFiltered = locations.filter((location: any) => location.name === event.location);
+   this.selectedCategory = (categoryFiltered) ? categoryFiltered[0] : null;
+   this.selectedLocation = (locationFiltered) ? locationFiltered[0] : null;
+   this.isEditEvent = true;
+   this.editEventTitleModal = event.name;
+    this.eventFormGroup.patchValue({
+      name: event.name,
+      dateTimeStart: event.dateTimeStart,
+    });
+  }
+
+  async editEventSubmit() {
+    this.loading.update(() => true);
+    if (!this.eventFormGroup.valid) {
+      this.messageService.add({
+        key: 'event',
+        severity:'error',
+        summary: ERROR_UPDATE_EVENT_TITLE,
+        detail: ERROR_UPDATE_EVENT_DETAILS
+        });
+      
+      this.loading.update(() => false);
+      return;
+    }
+      const body = {
+        dateTimeStart: this.eventFormGroup.value.dateTimeStart,
+        name: this.eventFormGroup.value.name,
+        id: this.selectedEvent?.id,
+        locationId: this.selectedLocation?.id,
+        eventCategoryId: this.selectedCategory?.id         
+      };
+      
+      this.isEditEvent = false;
+
+      const updatedEventData = await this.updateEvent(body)
+      .then((result) => {
+        if (result) {
+          return result;
+        }
+      }).catch((error) => error); 
+
+        this.messageService.add({
+          key: 'event',
+          severity:'info',
+          summary: SUCCESS_UPDATE_EVENT_TITLE,
+          detail: SUCCESS_UPDATE_EVENT_DETAILS
+          });
+          this.eventFormGroup.reset();
+          this.initData();
+
+          this.loading.update(() => false);
   }
 
   async tagAttendedToEvent(selected: any) {

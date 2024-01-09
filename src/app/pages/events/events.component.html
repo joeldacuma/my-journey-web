@@ -1,7 +1,8 @@
 <div class="grid">
   <div class="col-12">
-    <p-toast key="event"></p-toast>
-    <p-toast key="guest"></p-toast>
+    @for (eventToast of EVENT_TOASTS; track eventToast) {
+      <p-toast [key]="eventToast"></p-toast>
+    }
     <div class="card">
       <h5 style="font-weight: 600">Events</h5>
       <p-dialog 
@@ -178,6 +179,74 @@
           </p-paginator>
         </div>       
       </p-dialog>
+      <p-dialog
+      header="Edit Event"
+      [(visible)]="isEditEvent"
+      [modal]="true" 
+      showEffect="fade" 
+      [style]="{width: '30vw', height: '40vh'}"
+      [breakpoints]="{'96px': '70vw'}">
+       <ng-template pTemplate="content">
+        <div [formGroup]="eventFormGroup" class="formgrid grid">
+          <div class="flex flex-column flex-wrap gap-2">
+            <div class="col-12 md:col-6">
+              <div class="flex flex-column gap-2 mb-2">
+                <label class="font-bold">Title</label>
+                <input formControlName="name" class="w-20rem" pInputText type="text" placeholder="Enter an event name" />
+              </div>
+              <div class="flex flex-column gap-2 mb-2">
+                <label class="font-bold">Category</label>
+                <p-dropdown
+                [options]="events().categories" 
+                [(ngModel)]="selectedCategory" 
+                formControlName="eventCategory"
+                [showClear]="true"
+                class="w-30rem"
+                placeholder="Select a category">
+                <ng-template class="w-30rem" pTemplate="selectedItem">
+                  <div class="flex align-items-center gap-2" *ngIf="selectedCategory">
+                    <div>{{ selectedCategory.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template class="w-30rem" let-category pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <div>{{ category.name }}</div>
+                  </div>
+                </ng-template>
+                </p-dropdown>               
+              </div>
+              <div class="flex flex-column gap-2 mb-2">
+                <label class="font-bold">Locations</label>
+                <p-dropdown
+                [options]="events().locations" 
+                [(ngModel)]="selectedLocation" 
+                formControlName="location"
+                [showClear]="true" 
+                placeholder="Select a location">
+                <ng-template class="w-20rem" pTemplate="selectedItem">
+                  <div class="flex align-items-center gap-2" *ngIf="selectedLocation">
+                    <div>{{ selectedLocation.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template class="w-20rem" let-location pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <div>{{ location.name }}</div>
+                  </div>
+                </ng-template>
+                </p-dropdown>
+              </div>
+              <div class="flex flex-column gap-2 mb-2">
+                <label class="font-bold">Date</label>
+                <input formControlName="dateTimeStart" class="w-20rem" pInputText type="datetime-local" placeholder="Enter an date" />
+              </div>
+              <div class="flex flex-column gap-2 m-4">
+                <button pButton pRipple type="button" label="Update Now" class="p-button-raised" (click)="editEventSubmit()"></button>                      
+              </div>
+            </div>         
+          </div>          
+         </div>   
+       </ng-template>
+      </p-dialog>
       <p-table
         #eventDataTable 
         [(selection)]="selectedEvents"
@@ -318,7 +387,8 @@
                 tooltipPosition="bottom" 
                 [pTooltip]="tooltipEditEvent" 
                 class="m-1 cursor-pointer" 
-                icon="pi pi-file" 
+                icon="pi pi-file"
+                (click)="editEvent(event)" 
                 severity="info">
                   <ng-template #tooltipEditEvent>
                     <div class="flex align-items-center">
