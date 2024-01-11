@@ -10,13 +10,13 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
       },
-      {
-        path: 'events',
-        loadComponent: () => import('./pages/events/events.component').then(m => m.EventsComponent)
-      },
       { 
         path: 'members',
         loadComponent: () => import('./pages/members/members.component').then(m => m.MembersComponent)
+      },
+      {
+        path: 'events',
+        loadComponent: () => import('./pages/events/events.component').then(m => m.EventsComponent)
       },
       {
         path: 'categories',
@@ -41,6 +41,10 @@ export const routes: Routes = [
       {
         path: 'finder',
         loadComponent: () => import('./pages/finder/finder.component').then(m => m.FinderComponent)
+      },
+      {
+        path: 'crowdsourcing',
+        loadComponent: () => import('./pages/crowdsourcing/crowdsourcing.component').then(m => m.CrowdsourcingComponent)
       }
     ],
     canActivate: [AuthGuardService.canActivate]

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ILoginAuthProps, 
+         IUserProps,
          IEventProps, 
          IEventCategoryProps,
          IEventLocationProps,
@@ -115,9 +116,26 @@ export class AgendaService {
     });
   }
 
+  getMembersByPage(page: number, body: Object) {
+    return this.http.post<IUserProps>(`${environment.agenda}/member/find/page/` + page, 
+    body,{
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });  
+  }
+
   addMember(body: Object) {
     return this.http.post<number>(`${environment.agenda}/member/new`,
     body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  genderLookup() {
+    return this.http.get(`${environment.agenda}/lookup/get/gender`, {
       headers: {
         'Authorization': `${this.authService.authenticatedToken()}`
       }      

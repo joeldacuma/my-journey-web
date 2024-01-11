@@ -560,6 +560,10 @@
     right: 3.75rem;
   }
 
+  p-calendar > .p-calendar > .p-inputtext {
+    width: 20rem;
+  }
+
   p-calendar.ng-dirty.ng-invalid > .p-calendar > .p-inputtext {
     border-color: #f0a9a7;
   }

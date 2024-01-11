@@ -25,7 +25,7 @@ export class httpInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: any) => {
         if (
-           error.status = 412 &&
+           error.status === 412 &&
            error instanceof HttpErrorResponse &&
            !req.url.includes('authentication')
         ) {
@@ -49,8 +49,8 @@ export class httpInterceptorService implements HttpInterceptor {
         }),
         catchError((error) => {
           this.isRefreshing = false;
-          if ((error.status = 403) || (error.status = 417)) {
-            this.dispatcherService.emit(new DispatcherDataService('logout', null));
+          if ((error.status === 412) || (error.status === 417)) {
+            this.dispatcherService.emit(new DispatcherDataService('expired', null));
           }
           return throwError(() => error);
         })

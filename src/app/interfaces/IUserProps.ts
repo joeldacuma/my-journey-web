@@ -4,15 +4,16 @@ export interface IAuthProps {
 
 export interface IUserProps {
   id: number;
-  username: string;
+  name: string;
+  nickName: string;
+  address: string;
+  mobile: string;
   email: string;
-  blocked: boolean;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  birthdate: string;
-  userId: string;
-  biography: string;
-  contactNumber: string;
-  designation: string;
+  birthDate: string;
+  remarks: string;
+  civilStatus: string;
+  gender: number;
+  invitedByMemberName: string;
+  isActive: boolean;
+  roleId: number;
 };

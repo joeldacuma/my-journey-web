@@ -20,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { CalendarModule } from "primeng/calendar";
 
 @NgModule({
   declarations: [],
@@ -45,7 +46,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     DropdownModule,
     DialogModule,
     InputGroupModule,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    CalendarModule
   ]
 })
 export class PrimengModule { }

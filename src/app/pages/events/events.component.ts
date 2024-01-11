@@ -8,7 +8,6 @@ import {
   FormBuilder} from "@angular/forms";
 import moment from 'moment';
 import { IEventProps,
-         IGuestAttendanceProps,
          IAttendanceEventProps,
          IEventCategoryProps, 
          IEventLocationProps,
@@ -45,7 +44,6 @@ import { OverlayPanel } from 'primeng/overlaypanel';
   imports: [
     CommonModule,
     PrimengModule,
-    PrimengModule,
     ReactiveFormsModule,
     FormsModule
   ],
@@ -66,11 +64,13 @@ export class EventsComponent {
   public loading = signal(true);
   public loadingAttendance = signal(true);
   public eventFormGroup = new FormGroup<ICreateEventProps>(EventForm);
-  public guestFormGroup = new FormGroup<IGuestAttendanceProps>(GuestForm);
+  public guestFormGroup = new FormGroup<any>(GuestForm);
   public metaKeySelection: boolean = true;
   public isDialogAttendance = false;
   public isEditEvent = false;
   public attendanceCount = 0;
+  public defaultFilterRows = 0;
+  public defaultFilterRowsAttendance = 0;
   public diaLogAttendance = signal({
     id: 0,
     name: '',
@@ -103,6 +103,7 @@ export class EventsComponent {
   ];
 
   public searchAttendanceName: string = '';
+  public searchEventNameGlobal: string = '';
   public editEventTitleModal: string = '';
   public genderSelection = GENDER_SELECTION;
 
@@ -111,9 +112,7 @@ export class EventsComponent {
   public selectedMembers: any; // To change
   public selectedEvent: any; // To change
 
-  ngOnInit() {
-    this.initData();
-  }
+  ngOnInit() {}
 
   initData() {
     const _PROCESS = [
@@ -139,9 +138,9 @@ export class EventsComponent {
     });
   }
 
-  async getEvents(pageNumber: number) {
+  async getEvents(pageNumber: number, body: any = {}) {
     const eventData = await lastValueFrom(
-      this.agendaService.getEventsByPage(pageNumber, {}).pipe(
+      this.agendaService.getEventsByPage(pageNumber, body).pipe(
         map((result: IEventProps) => {
           return result;
         })
@@ -244,6 +243,30 @@ export class EventsComponent {
   
         this.loadingAttendance.update(() => false);
       }
+    } else {
+      this.pager.set({
+        page: 1,
+        totalRows: this.defaultFilterRows,
+        pageSize: 100
+      });
+    }
+
+    if (this.searchEventNameGlobal) {
+      this.loading.update(() => true);
+      this.searchEventNameGlobal = '';
+      const events = await this.getEvents(
+        1, {});
+  
+      this.events.set({...events});
+      if (events) {
+        this.pager.set({
+          page: 1,
+          totalRows: events.pager.totalItems,
+          pageSize: events.pager.pageSize
+        });
+  
+        this.loading.update(() => false);
+      }
     }
   }
 
@@ -282,6 +305,7 @@ export class EventsComponent {
             this.paginator?.changePage(0);
             this.loading.update(() => false);
             this.selectedEvents = [];
+            this.defaultFilterRows = this.defaultFilterRows - 1;
           });
         }, 500);
       }
@@ -322,6 +346,7 @@ export class EventsComponent {
           this.eventFormGroup.reset();
           this.initData();
           this.opEvent?.hide();
+          this.defaultFilterRows = this.defaultFilterRows + 1;
       }
     }).catch((error) => error);
   }
@@ -470,6 +495,45 @@ export class EventsComponent {
     }
   }
 
+  async globalEventFilter() {
+    this.loading.update(() => true);
+    const events = await this.getEvents(
+      1, (this.searchEventNameGlobal) ? {
+        name: this.searchEventNameGlobal
+      } : {}
+    );
+
+    this.events.set({...events});
+    if (events) {
+      this.pager.set({
+        page: 1,
+        totalRows: events.pager.totalItems,
+        pageSize: events.pager.pageSize
+      });
+
+      this.loading.update(() => false);
+    }
+  }
+
+  onFilter(event: any) {
+    const filteredValue = event.filteredValue;
+    if (this.defaultFilterRows === 0) {
+      this.defaultFilterRows = this.pager().totalRows;
+    } else if (filteredValue.length >= 100) {
+      this.pager.set({
+        page: 1,
+        totalRows: this.defaultFilterRows,
+        pageSize: 100
+      });
+    } else {
+      this.pager.set({
+        page: 1,
+        totalRows: filteredValue.length,
+        pageSize: filteredValue.length
+      });
+    }
+  }
+
   async createGuest() {
     this.loadingAttendance.update(() => true);
     if (!this.guestFormGroup.valid) {
@@ -534,6 +598,10 @@ export class EventsComponent {
   constructor() {
     this.eventFormGroup = this.formBuilder.group(EventForm);
     this.guestFormGroup = this.formBuilder.group(GuestForm);
+    this.guestFormGroup.patchValue({
+     gender: this.genderSelection[0]
+    });
+    this.initData();
     effect(() => {
       this.events();
       this.pager();

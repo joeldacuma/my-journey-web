@@ -22,6 +22,11 @@ export const SUCCESS_CREATE_EVENT_TITLE = 'Event Created';
 export const SUCCESS_CREATE_EVENT_DETAILS = 'Event had been created.';
 export const ERROR_CREATE_GUEST_TITLE = 'Error Creating Guest';
 export const ERROR_CREATE_GUEST_DETAILS = 'Please check your inputs fields.';
+export const ERROR_CREATE_MEMBER_TITLE = 'Error Creating Member';
+export const ERROR_CREATE_MEMBER_DETAILS = 'Please check your inputs fields.';
+export const ERROR_CREATE_MEMBER_DUPLICATE = 'Member email already exists.';
+export const SUCCESS_CREATE_MEMBER_TITLE = 'New Member Registered';
+export const SUCCESS_CREATE_MEMBER_DETAILS = 'Member had been created.';
 export const SUCCESS_CREATE_GUEST_TITLE = 'New Guest Registered';
 export const SUCCESS_CREATE_GUEST_DETAILS = 'Guest had been created.';
 export const ERROR_GENERIC_TITLE = 'Error on Request';
@@ -30,6 +35,8 @@ export const ERROR_UPDATE_EVENT_TITLE = 'Error Updating Event';
 export const ERROR_UPDATE_EVENT_DETAILS = 'Please check your inputs.';
 export const SUCCESS_UPDATE_EVENT_TITLE = 'Event Updated';
 export const SUCCESS_UPDATE_EVENT_DETAILS = 'Event had been updated.';
+export const ERROR_EXPIRED_SESSION_TITLE = 'Session Expired';
+export const ERROR_EXPIRED_SESSION_DETAILS = 'Please login again.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';
@@ -48,3 +55,13 @@ export const GENDER_SELECTION = [
  }
 ];
 
+export const ACTIVE_SELECTION = [
+   {
+      id: 1,
+      label: 'Yes'
+   },
+   {
+      id: 2,
+      label: 'No'
+   }
+];
