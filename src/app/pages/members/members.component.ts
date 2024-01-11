@@ -58,7 +58,7 @@ export class MembersComponent {
     pageSize: 100
   });
   public loading = signal(true);
-  public defaultFilterRows = signal(0);
+  public defaultFilterRows = 0;
   public selectedMembers: IUserProps[] = [];
   public userFormGroup = new FormGroup<any>(UserForm);
 
@@ -130,12 +130,12 @@ export class MembersComponent {
 
   onFilter(event: any) {
     const filteredValue = event.filteredValue;
-    if (this.defaultFilterRows() === 0) {
-      this.defaultFilterRows.update(() => this.pager().totalRows);
+    if (this.defaultFilterRows === 0) {
+      this.defaultFilterRows = this.pager().totalRows;
     } else if (filteredValue.length >= 100) {
       this.pager.set({
         page: 1,
-        totalRows: this.defaultFilterRows(),
+        totalRows: this.defaultFilterRows,
         pageSize: 100
       });
     } else {
@@ -156,7 +156,7 @@ export class MembersComponent {
    } else {
     this.pager.set({
       page: 1,
-      totalRows: this.defaultFilterRows(),
+      totalRows: this.defaultFilterRows,
       pageSize: 100
     });
    }
@@ -212,8 +212,12 @@ export class MembersComponent {
       }
 
       this.userFormGroup.reset();
+      this.userFormGroup.patchValue({
+        gender: this.gendersSelection[0],
+        isActive: this.activeSelection[0]
+      });
       this.initData();
-      this.defaultFilterRows.update(() => this.defaultFilterRows() + 1);
+      this.defaultFilterRows = this.defaultFilterRows + 1;
 
       this.messageService.add({
         key: 'member',
@@ -284,7 +288,7 @@ export class MembersComponent {
         summary: DELETE_MEMBER_SUCCESS_TITLE,
         detail: DELETE_MEMBER_SUCESS_DETAILS
       });
-      this.defaultFilterRows.update(() => this.defaultFilterRows() - this.selectedMembers.length);
+      this.defaultFilterRows = this.defaultFilterRows - this.selectedMembers.length;
       this.selectedMembers = [];
       this.initData();
      }
@@ -296,9 +300,6 @@ export class MembersComponent {
     this.userFormGroup.patchValue({
       gender: this.gendersSelection[0],
       isActive: this.activeSelection[0]
-    });
-    computed(() => {
-      this.defaultFilterRows();
     });
     effect(() => {
       this.users();
