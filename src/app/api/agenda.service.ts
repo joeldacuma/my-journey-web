@@ -141,4 +141,13 @@ export class AgendaService {
       }      
     });
   }
+
+  deleteMembers(body: Array<string>) {
+    return this.http.post(`${environment.agenda}/member/delete`, 
+    body,{
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
+  }
 }

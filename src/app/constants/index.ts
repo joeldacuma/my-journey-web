@@ -16,6 +16,8 @@ export const SUCCESS_MESSAGE_LOGIN_TITLE = 'Login Successful';
 export const SUCCESS_MESSAGE_LOGIN_DETAILS = 'Redirecting to home...';
 export const DELETE_EVENT_SUCCESS_TITLE = 'Event Deleted';
 export const DELETE_EVENT_SUCESS_DETAILS = 'Selected events had been removed.';
+export const DELETE_MEMBER_SUCCESS_TITLE = 'Member Deleted';
+export const DELETE_MEMBER_SUCESS_DETAILS = 'Selected members had been removed.';
 export const ERROR_CREATE_EVENT_TITLE = 'Error Creating Event';
 export const ERROR_CREATE_EVENT_DETAILS = 'Please check your inputs.';
 export const SUCCESS_CREATE_EVENT_TITLE = 'Event Created';
@@ -37,6 +39,10 @@ export const SUCCESS_UPDATE_EVENT_TITLE = 'Event Updated';
 export const SUCCESS_UPDATE_EVENT_DETAILS = 'Event had been updated.';
 export const ERROR_EXPIRED_SESSION_TITLE = 'Session Expired';
 export const ERROR_EXPIRED_SESSION_DETAILS = 'Please login again.';
+export const CONFIRM_DELETE_EVENT_TITLE = 'Delete Event';
+export const CONFIRM_DELETE_EVENT_DETAILS = 'Are you sure you want to delete the selected event(s)?';
+export const CONFIRM_DELETE_MEMBER_TITLE = 'Delete Member';
+export const CONFIRM_DELETE_MEMBER_DETAILS = 'Are you sure you want to delete the selected member(s)?';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

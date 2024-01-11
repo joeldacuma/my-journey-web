@@ -21,6 +21,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { CalendarModule } from "primeng/calendar";
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [],
@@ -47,7 +48,8 @@ import { CalendarModule } from "primeng/calendar";
     DialogModule,
     InputGroupModule,
     InputGroupAddonModule,
-    CalendarModule
+    CalendarModule,
+    ConfirmDialogModule
   ]
 })
 export class PrimengModule { }

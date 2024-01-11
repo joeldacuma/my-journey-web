@@ -248,6 +248,13 @@
          </div>   
        </ng-template>
       </p-dialog>
+      <p-confirmDialog 
+        key="confirmDeleteEvent" 
+        icon="pi pi-exclamation-triangle"
+        [style]="{width: '350px'}" 
+        acceptButtonStyleClass="p-button-text" 
+        rejectButtonStyleClass="p-button-text">
+      </p-confirmDialog>
       <p-table
         #eventDataTable 
         loadingIcon="pi pi-spin pi-spinner"
@@ -336,11 +343,10 @@
                 color="danger" 
                 class="m-2 p-button-danger p-button-raised" 
                 icon="pi pi-fw pi-trash" 
-                (click)="deleteEvents()">
+                (click)="confirmDeleteEvent()">
               </button>
               <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clearFilter(eventDataTable)"></button>             
             </div>
-
             <div class="flex flex-column align-items-end">
               <p-inputGroup class="mb-3">
                   <button pRipple type="button" pButton label="Search" (click)="globalEventFilter()"></button>
@@ -445,7 +451,7 @@
       <div class="flex-auto">
         <p-paginator
           #paginator
-          (onPageChange)="nextPage($event)" 
+          (onPageChange)="onPage($event)" 
           [first]="pager().page" 
           [rows]="pager().pageSize"
           [totalRecords]="pager().totalRows"

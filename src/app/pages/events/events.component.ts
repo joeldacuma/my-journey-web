@@ -30,11 +30,13 @@ import { DELETE_EVENT_SUCCESS_TITLE,
          ERROR_GENERIC_DETAILS,
          ERROR_UPDATE_EVENT_TITLE,
          ERROR_UPDATE_EVENT_DETAILS,
+         CONFIRM_DELETE_EVENT_TITLE,
+         CONFIRM_DELETE_EVENT_DETAILS,
          GENDER_SELECTION } from '@constants/index';
 import { EventForm, GuestForm } from '@forms/index';
 
 import { Table } from 'primeng/table';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { OverlayPanel } from 'primeng/overlaypanel';
 
@@ -48,7 +50,8 @@ import { OverlayPanel } from 'primeng/overlaypanel';
     FormsModule
   ],
   providers:[
-    MessageService
+    MessageService,
+    ConfirmationService
    ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.scss'
@@ -59,6 +62,7 @@ export class EventsComponent {
   @ViewChild('guestForm', {static: false}) guestForm?: OverlayPanel;
   private agendaService = inject(AgendaService);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
   private formBuilder = inject(FormBuilder);
   public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
@@ -207,7 +211,7 @@ export class EventsComponent {
      return newMember;
   }
 
-  async nextPage(event: any) {
+  async onPage(event: any) {
     this.loading.update(() => true);
     await this.getEvents(event.page + 1)
           .then((result) => {
@@ -270,6 +274,17 @@ export class EventsComponent {
     }
   }
 
+  confirmDeleteEvent() {
+    this.confirmationService.confirm({
+      header: CONFIRM_DELETE_EVENT_TITLE,
+      key: 'confirmDeleteEvent',
+      message: CONFIRM_DELETE_EVENT_DETAILS,
+      accept: () => {
+        this.deleteEvents();
+      }
+    })
+  }
+
   async deleteEvents() {
     if (this.selectedEvents.length === 0) {
       return;
@@ -302,10 +317,14 @@ export class EventsComponent {
           this.getEvents(1)
           .then((result) => {
             this.events.update(() => result);
-            this.paginator?.changePage(0);
+            this.pager.set({
+              page: 1,
+              totalRows: result.pager.totalItems,
+              pageSize: result.pager.pageSize
+            });
             this.loading.update(() => false);
             this.selectedEvents = [];
-            this.defaultFilterRows = this.defaultFilterRows - 1;
+            this.defaultFilterRows = this.defaultFilterRows - this.selectedEvents.length;
           });
         }, 500);
       }
