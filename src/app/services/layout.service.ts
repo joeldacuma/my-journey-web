@@ -37,7 +37,6 @@ export class LayoutService {
 
   showProfileSidebar() {
     this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
-    console.log(this.state.profileSidebarVisible);
     if (this.state.profileSidebarVisible) {
       //this.overlayOpen.next(this.state.overlayMenuActive);
     }
