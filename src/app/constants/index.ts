@@ -43,6 +43,10 @@ export const CONFIRM_DELETE_EVENT_TITLE = 'Delete Event';
 export const CONFIRM_DELETE_EVENT_DETAILS = 'Are you sure you want to delete the selected event(s)?';
 export const CONFIRM_DELETE_MEMBER_TITLE = 'Delete Member';
 export const CONFIRM_DELETE_MEMBER_DETAILS = 'Are you sure you want to delete the selected member(s)?';
+export const ERROR_UPDATE_MEMBER_TITLE = 'Error Updating Member';
+export const ERROR_UPDATE_MEMBER_DETAILS = 'Please check your inputs.';
+export const SUCCESS_UPDATE_MEMBER_TITLE = 'Member Updated';
+export const SUCCESS_UPDATE_MEMBER_DETAILS = 'Member had been updated.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

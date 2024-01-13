@@ -137,6 +137,7 @@ export class EventsComponent {
         pageSize: events.pager.pageSize
       });
 
+      this.defaultFilterRows = events.pager.totalItems;
       this.loading.set(false);
       this.loadingAttendance.set(false);
     });
@@ -615,12 +616,12 @@ export class EventsComponent {
   }
 
   constructor() {
+    this.initData();
     this.eventFormGroup = this.formBuilder.group(EventForm);
     this.guestFormGroup = this.formBuilder.group(GuestForm);
     this.guestFormGroup.patchValue({
      gender: this.genderSelection[0]
     });
-    this.initData();
     effect(() => {
       this.events();
       this.pager();

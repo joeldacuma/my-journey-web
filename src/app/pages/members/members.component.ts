@@ -22,7 +22,11 @@ import { GENDER_SELECTION,
          CONFIRM_DELETE_MEMBER_TITLE,
          CONFIRM_DELETE_MEMBER_DETAILS,
          DELETE_MEMBER_SUCCESS_TITLE,
-         DELETE_MEMBER_SUCESS_DETAILS } from '@constants/index';
+         DELETE_MEMBER_SUCESS_DETAILS,
+         ERROR_UPDATE_MEMBER_TITLE,
+         ERROR_UPDATE_MEMBER_DETAILS,
+         SUCCESS_UPDATE_MEMBER_TITLE,
+         SUCCESS_UPDATE_MEMBER_DETAILS } from '@constants/index';
 
 import { Paginator } from 'primeng/paginator';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -67,6 +71,8 @@ export class MembersComponent {
   public activeSelection: Array<any> = ACTIVE_SELECTION;
   public gendersSelection: Array<any> = GENDER_SELECTION;
   public genders: Array<any> = [];
+  public isEditMember: boolean = false;
+  public memberId: number = 0;
 
   initData() {
     const _PROCESS = [
@@ -81,10 +87,11 @@ export class MembersComponent {
 
       this.pager.set({
         page: 1,
-        totalRows: members.pager.totalItems,
+        totalRows: members.pager?.totalItems,
         pageSize: members.pager.pageSize
       });
 
+      this.defaultFilterRows = members.pager?.totalItems;
       this.loading.set(false);
     });
   }
@@ -148,9 +155,9 @@ export class MembersComponent {
   }
 
   async clearFilter(table: Table) {
-   this.loading.update(() => true);
    table.clear();
    if (this.searchMemberGlobal) {
+    this.loading.update(() => true);
     this.searchMemberGlobal = '';
     this.initData();
    } else {
@@ -292,6 +299,85 @@ export class MembersComponent {
       this.selectedMembers = [];
       this.initData();
      }
+  }
+
+  async updateMember(body: Object) {
+    const updateMember = await lastValueFrom(
+      this.agendaService.updateMember(body).pipe(
+        map((result: any) => {
+          return result;
+        })
+      )
+    ).catch((error) => error);
+
+    return updateMember;
+  }
+
+  showEditMemberModal(member: any) {
+    this.isEditMember = true;
+    this.memberId = member.id;
+
+    if (!member.gender) {
+      member.gender = 3;
+    }
+
+    const filterGender = GENDER_SELECTION.filter((gender: any) => gender.id === member.gender);
+
+    this.userFormGroup.patchValue({
+      name: member.name,
+      nickName: member.nickName,
+      birthDate: member.birthDate && new Date(member.birthDate),
+      gender: filterGender[0],
+      email: member.email,
+      address: member.address,
+      mobile: member.mobile,
+      invitedByMemberName: member.invitedByMemberName,
+      remarks: member.remarks,
+      isActive: member.isActive ? this.activeSelection[0] : this.activeSelection[1]
+    });
+  }
+
+  async submitUpdateMember() {
+    this.loading.update(() => true);
+
+    if (!this.userFormGroup.valid) {
+      this.messageService.add({
+        key: 'member',
+        severity: 'error',
+        summary: ERROR_UPDATE_MEMBER_TITLE,
+        detail: ERROR_UPDATE_MEMBER_DETAILS, 
+      });
+      return;
+    }
+
+    const body = {
+      id: this.memberId,
+      name: this.userFormGroup.value.name,
+      nickName: this.userFormGroup.value.nickName,
+      birthDate: moment(this.userFormGroup.value.birthDate).format('MM/DD/YYYY'),
+      gender: this.userFormGroup.value.gender.id,
+      email: this.userFormGroup.value.email,
+      address: this.userFormGroup.value.address,
+      mobile: this.userFormGroup.value.mobile,
+      invitedByMemberName: this.userFormGroup.value.invitedByMemberName,
+      remarks: this.userFormGroup.value.remarks,
+      isActive: this.userFormGroup.value.isActive.id === 1 ? true : false,
+    };
+
+    this.isEditMember = false;
+
+    const updateMember = await this.updateMember(body)
+    .then(() => {
+      this.messageService.add({
+        key: 'member',
+        severity: 'info',
+        summary: SUCCESS_UPDATE_MEMBER_TITLE,
+        detail: SUCCESS_UPDATE_MEMBER_DETAILS
+      });
+
+      this.userFormGroup.reset();
+      this.initData();
+    });
   }
 
   constructor() {

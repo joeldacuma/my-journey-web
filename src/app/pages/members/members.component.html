@@ -8,6 +8,129 @@
       acceptButtonStyleClass="p-button-text" 
       rejectButtonStyleClass="p-button-text">
     </p-confirmDialog>
+    <p-dialog
+    header="Edit Member"
+    [(visible)]="isEditMember"
+    [modal]="true" 
+    showEffect="fade" 
+    [style]="{width: '30vw', height: 'auto'}"
+    [breakpoints]="{'96px': '60vw'}">
+    <ng-template pTemplate="content">
+      <div [formGroup]="userFormGroup" class="formgrid grid">
+        <div class="flex flex-column flex-wrap gap-2">
+         <div class="col-12 md:col-6">
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Name</label>
+            <input formControlName="name" class="w-20rem" pInputText type="text" placeholder="Enter an name" />
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Nickname</label>
+            <input formControlName="nickName" class="w-20rem" pInputText type="text" placeholder="Enter an nickname" />
+          </div> 
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Birthdate</label>
+            <p-calendar
+              dateFormat="mm/dd/yy"
+              inputId="birthDate"
+              formControlName="birthDate"
+              class="w-20rem"
+              placeholder="Enter birthdate"
+              [showIcon]="true"
+            ></p-calendar>
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Gender</label>
+            <p-dropdown
+              [options]="gendersSelection"
+              formControlName="gender"
+              placeholder="Select gender"
+            >
+              <ng-template let-gender pTemplate="gender">
+                <div class="flex align-items-center">
+                  <span>{{ gender.label }}</span>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Email</label>
+            <input
+              formControlName="email"
+              class="w-20rem"
+              pInputText
+              type="text"
+              placeholder="Enter email"
+            />
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Address</label>
+            <input
+              formControlName="address"
+              class="w-20rem"
+              pInputText
+              type="text"
+              placeholder="Enter address"
+            />
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Mobile Number</label>
+            <input
+              formControlName="mobile"
+              class="w-20rem"
+              pInputText
+              type="text"
+              placeholder="Enter mobile number"
+            />
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Invited By</label>
+            <input
+              formControlName="invitedByMemberName"
+              class="w-20rem"
+              pInputText
+              type="text"
+              placeholder="Enter member name"
+            />
+          </div>
+          <div class="flex flex-column gap-2 mb-2">
+            <label class="font-bold">Remarks</label>
+            <input
+              formControlName="remarks"
+              class="w-20rem"
+              pInputText
+              type="text"
+              placeholder="Enter remarks"
+            />
+          </div>
+          <div class="flex flex-column gap-2 mb-4">
+            <label class="font-bold">Is active?</label>
+            <p-dropdown
+              [options]="activeSelection"
+              formControlName="isActive"
+              placeholder="Select active"
+            >
+              <ng-template let-active pTemplate="active">
+                <div class="flex align-items-center">
+                  <span>{{ active.label }}</span>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <div class="flex flex-column gap-2 mb-4">
+            <button
+              pButton
+              pRipple
+              type="button"
+              label="Update"
+              class="p-button-raised"
+              (click)="submitUpdateMember()"
+            ></button>
+          </div>          
+         </div>
+        </div> 
+      </div>
+    </ng-template>
+    </p-dialog>
     <div class="card">
       <h5 style="font-weight: 600">Members</h5>
       @if (loading()) {
@@ -314,11 +437,25 @@
             <td>
               <div
                 class="flex justify-content-between align-items-center"
-              ></div>
+              >
+              <p-tag 
+              tooltipPosition="bottom" 
+              [pTooltip]="tooltipMemberEdit" 
+              class="m-1 cursor-pointer" 
+              icon="pi pi-users"
+              (click)="showEditMemberModal(member)"
+              severity="info">
+              <ng-template #tooltipMemberEdit>
+                <div class="flex align-items-center">
+                  <span>Edit</span>
+                </div>                  
+              </ng-template>              
+            </p-tag>
+              </div>
             </td>
             <td>{{ member.name }}</td>
             <td>{{ member.nickName }}</td>
-            <td>{{ member.birthDate | date : "MM/dd/yyyy, h:mm a" }}</td>
+            <td>{{ member.birthDate | date : "MM/dd/yyyy" }}</td>
             <td>{{ onGenderLookup(member.gender) }}</td>
             <td>{{ member.email }}</td>
             <td>{{ member.mobile }}</td>
@@ -332,7 +469,7 @@
             <td colspan="12">No event found.</td>
           </tr>
         </ng-template>
-      </p-table>
+        </p-table>
       <div class="flex-auto">
         <p-paginator
           #paginator

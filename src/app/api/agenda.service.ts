@@ -142,6 +142,15 @@ export class AgendaService {
     });
   }
 
+  updateMember(body: Object) {
+    return this.http.post(`${environment.agenda}/member/edit`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    }); 
+  }
+
   deleteMembers(body: Array<string>) {
     return this.http.post(`${environment.agenda}/member/delete`, 
     body,{
