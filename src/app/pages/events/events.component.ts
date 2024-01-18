@@ -32,8 +32,16 @@ import { DELETE_EVENT_SUCCESS_TITLE,
          ERROR_UPDATE_EVENT_DETAILS,
          CONFIRM_DELETE_EVENT_TITLE,
          CONFIRM_DELETE_EVENT_DETAILS,
-         GENDER_SELECTION } from '@constants/index';
+         GENDER_SELECTION,
+         FILE_TYPE_CSV,
+         FILE_DOWNLOAD_ATTENDANCE_NAME,
+         FILE_DOWNLOAD_GUEST_ATTENDANCE_NAME,
+         FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_TITLE,
+         FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_DETAILS, 
+         FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_TITLE,
+         FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_DETAILS } from '@constants/index';
 import { EventForm, GuestForm } from '@forms/index';
+import { FileService } from '@services/index';
 
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -63,6 +71,7 @@ export class EventsComponent {
   private agendaService = inject(AgendaService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private fileService = inject(FileService);
   private formBuilder = inject(FormBuilder);
   public selectedEvents: IEventProps[] = [];
   public loading = signal(true);
@@ -103,7 +112,8 @@ export class EventsComponent {
 
   public EVENT_TOASTS = [
    'event',
-    'guest'
+    'guest',
+    'attendance'
   ];
 
   public searchAttendanceName: string = '';
@@ -616,14 +626,62 @@ export class EventsComponent {
   }
 
   async downloadAttendanceDetails() {
+    this.loadingAttendance.update(() => true);
     const download = await lastValueFrom(
-      this.agendaService.downLoadAttendeeDetails(this.diaLogAttendance().id).pipe(
+      this.agendaService.downloadAttendeeDetails(this.diaLogAttendance().id).pipe(
         map((result: any) => {
-          return result;
+          this.messageService.add({
+            key: FILE_DOWNLOAD_ATTENDANCE_NAME,
+            severity:'info',
+            summary: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_TITLE,
+            detail: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_DETAILS
+          })
+          return this.fileService.downloadFile(
+            result, `${FILE_DOWNLOAD_ATTENDANCE_NAME}-${this.diaLogAttendance().id}`, FILE_TYPE_CSV
+            );
         })
       )
-    ).catch((error) => error);
+    ).catch((error) => {
+      this.messageService.add({
+        key: FILE_DOWNLOAD_ATTENDANCE_NAME,
+        severity: 'error',
+        summary: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_TITLE,
+        detail: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_DETAILS
+      });
+      return error;
+    });
 
+    this.loadingAttendance.update(() => false);
+    return download;
+  }
+
+  async downloadGuestsDetails() {
+    this.loadingAttendance.update(() => true);
+    const download = await lastValueFrom(
+      this.agendaService.downloadGuestsDetails(this.diaLogAttendance().id).pipe(
+        map((result: any) => {
+          this.messageService.add({
+            key: FILE_DOWNLOAD_ATTENDANCE_NAME,
+            severity:'info',
+            summary: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_TITLE,
+            detail: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_DETAILS
+          })
+          return this.fileService.downloadFile(
+            result, `${FILE_DOWNLOAD_GUEST_ATTENDANCE_NAME}-${this.diaLogAttendance().id}`, FILE_TYPE_CSV
+            );
+        })
+      )
+    ).catch((error) => {
+      this.messageService.add({
+        key: FILE_DOWNLOAD_ATTENDANCE_NAME,
+        severity: 'error',
+        summary: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_TITLE,
+        detail: FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_DETAILS
+      });
+      return error;
+    });
+
+    this.loadingAttendance.update(() => false);
     return download;
   }
 

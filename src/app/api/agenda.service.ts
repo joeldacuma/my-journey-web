@@ -160,7 +160,7 @@ export class AgendaService {
     });
   }
 
-  downLoadAttendeeDetails(id: number) {
+  downloadAttendeeDetails(id: number) {
     return this.http.get(`${environment.agenda}/attendance/${id}/downloadattendeedetails`,
     {
       headers: {
@@ -171,5 +171,18 @@ export class AgendaService {
       reportProgress: true,
       responseType: 'blob'
     });
+  }
+
+  downloadGuestsDetails(id: number) {
+    return this.http.get(`${environment.agenda}/attendance/${id}/downloadfirsttimerdetails`,
+    {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`,
+        'Accept': 'text/csv',
+        'Content-Disposition': `attachment; filename=attendee-${id}-details.csv`
+      },
+      reportProgress: true,
+      responseType: 'blob'
+  });
   }
 }

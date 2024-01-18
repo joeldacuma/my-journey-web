@@ -75,3 +75,12 @@ export const ACTIVE_SELECTION = [
       label: 'No'
    }
 ];
+
+// FILE TYPES
+export const FILE_DOWNLOAD_ATTENDANCE_NAME = 'attendance';
+export const FILE_DOWNLOAD_GUEST_ATTENDANCE_NAME = 'guests';
+export const FILE_TYPE_CSV = 'text/csv';
+export const FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_TITLE = 'Download Attendance Success';
+export const FILE_DOWNLOAD_ATTENDANCE_CONFIRM_SUCCESS_DETAILS = 'Attendance file had been downloaded.';
+export const FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_TITLE = 'Download Attendance Error';
+export const FILE_DOWNLOAD_ATTENDANCE_CONFIRM_ERROR_DETAILS = 'Please contact the administrator.';

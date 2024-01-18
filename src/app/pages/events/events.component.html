@@ -126,11 +126,29 @@
                    (click)="downloadAttendanceDetails()"
                    class="p-button-rounded p-button-info">
                    <ng-template #tooltipDownloadAttendance>
-                    <div class="flex align-items-center">
+                    <div class="flex flex-column align-items-center">
                       <span>Download</span>
+                      <span>Attendance</span>
                     </div>                  
                   </ng-template>
-                  </button>                  
+                  </button>
+                  <button
+                  tooltipPosition="bottom" 
+                  [pTooltip]="tooltipGuestAttendance" 
+                   pButton 
+                   pRipple 
+                   type="button"
+                   color="warning" 
+                   icon="pi pi-fw pi-save"
+                   (click)="downloadGuestsDetails()"
+                   class="p-button-rounded p-button-warning">
+                   <ng-template #tooltipGuestAttendance>
+                    <div class="flex flex-column align-items-center">
+                      <span>Download</span>
+                      <span>Guests</span>
+                    </div>                  
+                  </ng-template>
+                  </button>                
                 </div>
               </div>
               <div class="flex flex-column align-items-end">
