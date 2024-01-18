@@ -159,4 +159,17 @@ export class AgendaService {
       }
     });
   }
+
+  downLoadAttendeeDetails(id: number) {
+    return this.http.get(`${environment.agenda}/attendance/${id}/downloadattendeedetails`,
+    {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`,
+        'Accept': 'text/csv',
+        'Content-Disposition': `attachment; filename=attendee-${id}-details.csv`
+      },
+      reportProgress: true,
+      responseType: 'blob'
+    });
+  }
 }

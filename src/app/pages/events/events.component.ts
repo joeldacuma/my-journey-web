@@ -615,6 +615,18 @@ export class EventsComponent {
     this.tagAttendedToEvent(_member);
   }
 
+  async downloadAttendanceDetails() {
+    const download = await lastValueFrom(
+      this.agendaService.downLoadAttendeeDetails(this.diaLogAttendance().id).pipe(
+        map((result: any) => {
+          return result;
+        })
+      )
+    ).catch((error) => error);
+
+    return download;
+  }
+
   constructor() {
     this.initData();
     this.eventFormGroup = this.formBuilder.group(EventForm);

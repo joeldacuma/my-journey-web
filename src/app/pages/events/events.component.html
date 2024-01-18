@@ -36,84 +36,102 @@
                 icon="pi pi-filter-slash" 
                 (click)="clearFilter(attendanceDataTable)">
                 </button>
-                <button
-                tooltipPosition="bottom" 
-                [pTooltip]="tooltipNewGuests" 
-                 pButton 
-                 pRipple 
-                 type="button"
-                 color="primary" 
-                 icon="pi pi-user-plus" 
-                 class="p-button-rounded p-button-info"
-                 (click)="guestForm.toggle($event)">
-                 <ng-template #tooltipNewGuests>
-                  <div class="flex align-items-center">
-                    <span>New Guests</span>
-                  </div>                  
-                </ng-template>
-                <p-overlayPanel #guestForm [showCloseIcon]="true">
-                  <ng-template pTemplate="content">
-                    <div [formGroup]="guestFormGroup" class="formgrid grid">
-                        <div class="flex flex-column flex-wrap gap-2">
-                          <h4 class="m-2">New Guest</h4>
-                          <div class="col-12 md: col-6">
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Name</label>
-                                <input 
-                                 formControlName="name" 
-                                 class="w-20rem" 
-                                 pInputText
-                                 type="text" 
-                                 placeholder="Enter fullname" 
-                                />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Nick Name</label>
-                                <input formControlName="nickName" class="w-20rem" pInputText type="text" placeholder="Enter nickname" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Birth Date</label>
-                                <input formControlName="birthDate" class="w-20rem" pInputText type="date" placeholder="Enter birthdate" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Gender</label>
-                                <p-dropdown [options]="genderSelection" formControlName="gender" placeholder="Select gender">
-                                  <ng-template let-gender pTemplate="gender">
-                                    <div class="flex align-items-center">
-                                      <span>{{ gender.label }}</span>
-                                    </div>
-                                </ng-template>                                  
-                                </p-dropdown>
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Email Address</label>
-                                <input formControlName="email" class="w-20rem" pInputText type="text" placeholder="Enter email" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Address</label>
-                                <input formControlName="address" class="w-20rem" pInputText type="text" placeholder="Enter address" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Mobile Number</label>
-                                <input formControlName="mobile" class="w-20rem" pInputText type="text" placeholder="Enter mobile number" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Remarks</label>
-                                <input formControlName="remarks" class="w-20rem" pInputText type="text" placeholder="Enter remarks" />
-                              </div>
-                              <div class="flex flex-column gap-2 mb-2">
-                                <label class="font-bold">Invited By</label>
-                                <input formControlName="invitedByMemberName" class="w-20rem" pInputText type="text" placeholder="Enter member name" />
-                              </div>
-                              <div class="flex flex-column gap-2 m-4">
-                                <button pButton pRipple type="button" label="Submit" class="p-button-raised" (click)="createGuest()"></button>                      
-                              </div>
-                          </div>
-                        </div>
-                    </div>  
+                <div class="flex flex-row gap-2">
+                  <button
+                  tooltipPosition="bottom" 
+                  [pTooltip]="tooltipNewGuests" 
+                   pButton 
+                   pRipple 
+                   type="button"
+                   color="primary" 
+                   icon="pi pi-user-plus" 
+                   class="p-button-rounded p-button-info"
+                   (click)="guestForm.toggle($event)">
+                   <ng-template #tooltipNewGuests>
+                    <div class="flex align-items-center">
+                      <span>New Guests</span>
+                    </div>                  
                   </ng-template>
-                </p-overlayPanel>                
-                </button>
+                  <p-overlayPanel #guestForm [showCloseIcon]="true">
+                    <ng-template pTemplate="content">
+                      <div [formGroup]="guestFormGroup" class="formgrid grid">
+                          <div class="flex flex-column flex-wrap gap-2">
+                            <h4 class="m-2">New Guest</h4>
+                            <div class="col-12 md: col-6">
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Name</label>
+                                  <input 
+                                   formControlName="name" 
+                                   class="w-20rem" 
+                                   pInputText
+                                   type="text" 
+                                   placeholder="Enter fullname" 
+                                  />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Nick Name</label>
+                                  <input formControlName="nickName" class="w-20rem" pInputText type="text" placeholder="Enter nickname" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Birth Date</label>
+                                  <input formControlName="birthDate" class="w-20rem" pInputText type="date" placeholder="Enter birthdate" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Gender</label>
+                                  <p-dropdown [options]="genderSelection" formControlName="gender" placeholder="Select gender">
+                                    <ng-template let-gender pTemplate="gender">
+                                      <div class="flex align-items-center">
+                                        <span>{{ gender.label }}</span>
+                                      </div>
+                                  </ng-template>                                  
+                                  </p-dropdown>
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Email Address</label>
+                                  <input formControlName="email" class="w-20rem" pInputText type="text" placeholder="Enter email" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Address</label>
+                                  <input formControlName="address" class="w-20rem" pInputText type="text" placeholder="Enter address" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Mobile Number</label>
+                                  <input formControlName="mobile" class="w-20rem" pInputText type="text" placeholder="Enter mobile number" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Remarks</label>
+                                  <input formControlName="remarks" class="w-20rem" pInputText type="text" placeholder="Enter remarks" />
+                                </div>
+                                <div class="flex flex-column gap-2 mb-2">
+                                  <label class="font-bold">Invited By</label>
+                                  <input formControlName="invitedByMemberName" class="w-20rem" pInputText type="text" placeholder="Enter member name" />
+                                </div>
+                                <div class="flex flex-column gap-2 m-4">
+                                  <button pButton pRipple type="button" label="Submit" class="p-button-raised" (click)="createGuest()"></button>                      
+                                </div>
+                            </div>
+                          </div>
+                      </div>  
+                    </ng-template>
+                  </p-overlayPanel>                
+                  </button>
+                  <button
+                  tooltipPosition="bottom" 
+                  [pTooltip]="tooltipDownloadAttendance" 
+                   pButton 
+                   pRipple 
+                   type="button"
+                   color="primary" 
+                   icon="pi pi-fw pi-download" 
+                   (click)="downloadAttendanceDetails()"
+                   class="p-button-rounded p-button-info">
+                   <ng-template #tooltipDownloadAttendance>
+                    <div class="flex align-items-center">
+                      <span>Download</span>
+                    </div>                  
+                  </ng-template>
+                  </button>                  
+                </div>
               </div>
               <div class="flex flex-column align-items-end">
                 <p-inputGroup class="mb-3">
@@ -369,7 +387,6 @@
             </div>
           </div>
           </ng-template>
-
           <ng-template pTemplate="header">
           <tr>
             <th style="min-width: 1rem">
