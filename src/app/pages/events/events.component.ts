@@ -694,7 +694,6 @@ export class EventsComponent {
     });
     effect(() => {
       this.events();
-      this.pager();
       this.attendanceEvents();
     });
   }
