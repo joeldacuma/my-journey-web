@@ -133,19 +133,6 @@
     </p-dialog>
     <div class="card">
       <h5 style="font-weight: 600">Members</h5>
-      @if (loading()) {
-        <div class="flex justify-content-between flex-wrap mb-3">
-          <div class="flex flex-row">
-              <p-skeleton height="3rem" width="5rem" styleClass="m-2"></p-skeleton>
-              <p-skeleton height="3rem" width="5rem" styleClass="m-2"></p-skeleton>
-              <p-skeleton height="3rem" width="5rem" styleClass="m-2"></p-skeleton>
-          </div>
-          <div class="flex flex-column  align-items-end">
-            <p-skeleton height="3rem" width="15rem" styleClass="mb-2"></p-skeleton>
-            <p-skeleton width="5rem" height="1rem"></p-skeleton>
-          </div>
-        </div>
-      } @else {
         <p-table
         #membersDataTable
         [(selection)]="selectedMembers"
@@ -482,7 +469,6 @@
         >
         </p-paginator>
       </div>
-      }
     </div>
   </div>
 </div>
