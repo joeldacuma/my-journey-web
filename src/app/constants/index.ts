@@ -47,6 +47,19 @@ export const ERROR_UPDATE_MEMBER_TITLE = 'Error Updating Member';
 export const ERROR_UPDATE_MEMBER_DETAILS = 'Please check your inputs.';
 export const SUCCESS_UPDATE_MEMBER_TITLE = 'Member Updated';
 export const SUCCESS_UPDATE_MEMBER_DETAILS = 'Member had been updated.';
+export const CONFIRM_DELETE_CATEGORY_TITLE = 'Delete Category';
+export const CONFIRM_DELETE_CATEGORY_DETAILS = 'Are you sure you want to delete the selected category(s)?';
+export const DELETE_CATEGORY_SUCCESS_TITLE = 'Category Deleted';
+export const DELETE_CATEGORY_SUCESS_DETAILS = 'Selected category had been removed.';
+export const ERROR_CREATE_CATEGORY_TITLE = 'Error Creating Category';
+export const ERROR_CREATE_CATEGORY_DETAILS = 'Please check your inputs fields.';
+export const SUCCESS_CREATE_CATEGORY_TITLE = 'New Category Registered';
+export const SUCCESS_CREATE_CATEGORY_DETAILS = 'Category had been created.';
+export const ERROR_UPDATE_CATEGORY_TITLE = 'Error Updating Category';
+export const ERROR_UPDATE_CATEGORY_DETAILS = 'Please check your inputs.';
+export const SUCCESS_UPDATE_CATEGORY_TITLE = 'Category Updated';
+export const SUCCESS_UPDATE_CATEGORY_DETAILS = 'Category had been updated.';
+
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

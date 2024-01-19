@@ -196,7 +196,25 @@ export class AgendaService {
     });
   }
 
-  removeCategories(body: Array<string>) {
+  addCategory(body: Object) {
+    return this.http.post<number>(`${environment.agenda}/eventcategory/new`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  editCategory(body: Object) {
+    return this.http.post(`${environment.agenda}/eventcategory/edit`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  deleteCategories(body: Array<string>) {
     return this.http.post(`${environment.agenda}/eventcategory/delete`, 
     body, {
       headers: {

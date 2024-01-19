@@ -159,7 +159,7 @@
                 icon="pi pi-fw pi-plus"
                 (click)="opMember.toggle($event)"
               ></button>
-              <p-overlayPanel #opMember [showCloseIcon]="true">
+              <p-overlayPanel my="top right" at="right center" #opMember [showCloseIcon]="true">
                 <ng-template pTemplate="content">
                   <form [formGroup]="userFormGroup" class="formgrid grid">
                     <div class="flex flex-column flex-wrap gap-2">
