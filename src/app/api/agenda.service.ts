@@ -6,7 +6,8 @@ import { ILoginAuthProps,
          IEventProps, 
          IEventCategoryProps,
          IEventLocationProps,
-         IAttendanceEventProps } from '@interfaces/index';
+         IAttendanceEventProps,
+         ICategoriesProps } from '@interfaces/index';
 import { environment } from 'environments/environment';
 
 import { AuthService } from '@services/index';
@@ -183,6 +184,24 @@ export class AgendaService {
       },
       reportProgress: true,
       responseType: 'blob'
-  });
+    });
+  }
+
+  getCategoriesLookup(body: Object) {
+    return this.http.post<ICategoriesProps>(`${environment.agenda}/eventcategory/find`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
+  }
+
+  removeCategories(body: Array<string>) {
+    return this.http.post(`${environment.agenda}/eventcategory/delete`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
   }
 }

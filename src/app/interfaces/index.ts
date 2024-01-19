@@ -7,3 +7,4 @@ export * from './ILoginProps';
 export * from './IUserProps';
 export * from './IEventsProps';
 export * from './IAttendanceProps';
+export * from './ICategoriesProps';
