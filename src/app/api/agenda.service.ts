@@ -214,4 +214,13 @@ export class AgendaService {
     });
   }
 
+  deleteLocations(body: Array<string>) {
+    return this.http.post(`${environment.agenda}/location/delete`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
+  }
+
 }

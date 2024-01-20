@@ -59,7 +59,10 @@ export const ERROR_UPDATE_CATEGORY_TITLE = 'Error Updating Category';
 export const ERROR_UPDATE_CATEGORY_DETAILS = 'Please check your inputs.';
 export const SUCCESS_UPDATE_CATEGORY_TITLE = 'Category Updated';
 export const SUCCESS_UPDATE_CATEGORY_DETAILS = 'Category had been updated.';
-
+export const CONFIRM_DELETE_LOCATION_TITLE = 'Delete Location';
+export const CONFIRM_DELETE_LOCATION_DETAILS = 'Are you sure you want to delete the selected location(s)?';
+export const DELETE_LOCATION_SUCCESS_TITLE = 'Location Deleted';
+export const DELETE_LOCATION_SUCESS_DETAILS = 'Selected location had been removed.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';
