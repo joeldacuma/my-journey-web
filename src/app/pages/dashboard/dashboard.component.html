@@ -1,40 +1,58 @@
 <div class="grid">
   <div class="col-12 lg:col-6 xl:col-3">
     <div class="card mb-0">
-      <div class="flex justify-content-between mb-3">
-        <div>
+      @if (loading()) {
+        <p-skeleton width="6rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="3rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="11rem" height="6rem" styleClas="mb-3"></p-skeleton>
+      } @else {
+        <div class="flex justify-content-between mb-3">
+          <div>
           <span class="block text-500 font-medium mb-3">Total Events</span>
-          <div class="text-900 font-medium text-xl">152</div>
+            <div class="text-900 font-medium text-xl">{{dashboardData().totalEvents}}</div>
+          </div>
         </div>
-      </div>
-      <span class="text-blue-500 font-medium">100 participants </span>
-      <span class="text-500">for latest event Worship Service</span>
+        <span class="text-blue-500 font-medium">{{dashboardData().latestAttendeesCount}} attendees </span>
+        for previous event <span class="text-blue-500">{{dashboardData().latestEvent}}</span> in
+        <span class="text-blue-500 font-medium">{{dashboardData().latestEventLocation}}</span>.
+      }
     </div>
   </div>
 
   <div class="col-12 lg:col-6 xl:col-3">
     <div class="card mb-0">
-      <div class="flex justify-content-between mb-3">
-        <div>
-          <span class="block text-500 font-medium mb-3">Total Members</span>
-          <div class="text-900 font-medium text-xl">5000</div>
+      @if (loading()) {
+        <p-skeleton width="6rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="3rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="11rem" height="4rem" styleClas="mb-3"></p-skeleton>
+      } @else {
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Total Members</span>
+            <div class="text-900 font-medium text-xl">{{dashboardData().totalMembers}}</div>
+          </div>
         </div>
-      </div>
-      <span class="text-blue-500 font-medium">3000 members </span>
-      <span class="text-500">active and attending events</span>
+        <span class="text-blue-500 font-medium"> {{dashboardData().membersActive}} members</span> are active
+        while <span class="text-blue-500 font-medium">{{dashboardData().membersInactive}} members</span> are inactive.
+      }
     </div>
   </div>
 
   <div class="col-12 lg:col-6 xl:col-3">
     <div class="card mb-0">
-      <div class="flex justify-content-between mb-3">
-        <div>
-          <span class="block text-500 font-medium mb-3">Total Locations</span>
-          <div class="text-900 font-medium text-xl">20</div>
+      @if(loading()) {
+        <p-skeleton width="6rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="3rem" styleClass="mb-3"></p-skeleton>
+        <p-skeleton width="11rem" height="4rem" styleClas="mb-3"></p-skeleton>
+      } @else {
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Total Locations</span>
+            <div class="text-900 font-medium text-xl">{{dashboardData().totalLocations}}</div>
+          </div>
         </div>
-      </div>
-      <span class="text-blue-500 font-medium">2 registered </span>
-      <span class="text-500">latest outreaches or business areas</span>
+        <span class="text-500">locations are compose of outreaches, cities or business areas.</span>
+      }
     </div>
   </div>
 </div>

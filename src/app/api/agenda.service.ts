@@ -53,6 +53,24 @@ export class AgendaService {
     });
   }
 
+  getEvents(body: Object) {
+    return this.http.post<IEventProps>(`${environment.agenda}/event/find`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
+  getMembers(body: Object) {
+    return this.http.post<IUserProps>(`${environment.agenda}/member/find`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
   getEventCategories(body: Object) {
     return this.http.post<IEventCategoryProps>(`${environment.agenda}/eventcategory/find`, 
     body, {
