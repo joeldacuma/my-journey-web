@@ -187,15 +187,6 @@ export class AgendaService {
     });
   }
 
-  getCategoriesLookup(body: Object) {
-    return this.http.post<ICategoriesProps>(`${environment.agenda}/eventcategory/find`, 
-    body, {
-      headers: {
-        'Authorization': `${this.authService.authenticatedToken()}`
-      }
-    });
-  }
-
   addCategory(body: Object) {
     return this.http.post<number>(`${environment.agenda}/eventcategory/new`,
     body, {
@@ -222,4 +213,5 @@ export class AgendaService {
       }
     });
   }
+
 }

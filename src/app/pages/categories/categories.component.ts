@@ -27,6 +27,7 @@ import {
 
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-categories',
@@ -86,7 +87,7 @@ export class CategoriesComponent {
 
   async getCategories(body: Object) {
     const categories = await lastValueFrom(
-      this.agendaService.getCategoriesLookup(body).pipe(
+      this.agendaService.getEventCategories(body).pipe(
         map((result: ICategoriesProps) => {
           return result;
         })
@@ -244,6 +245,11 @@ export class CategoriesComponent {
     ).catch((error: any) => error);
     
     return updateCategory;
+  }
+
+  async clearFilters(table: Table) {
+    table.clear();
+    this.initData();
   }
 
   constructor() {
