@@ -4,13 +4,47 @@
       <p-toast [key]="locationToast"></p-toast>
     }
     <div class="card">
+      <p-dialog
+      header="Edit Locations"
+      [(visible)]="isEditLocation"
+      [modal]="true" 
+      showEffect="fade" 
+      [style]="{width: '30vw', height: 'auto'}"
+      [breakpoints]="{'96px': '60vw'}">
+        <ng-template pTemplate="content">
+          <div [formGroup]="locationFormGroup" class="formgrid grid">
+            <div class="flex flex-column flex-wrap gap-2">
+              <div class="col-12 md:col-6">
+                <div class="flex flex-column gap-2 mb-4">
+                  <label class="font-bold">Name</label>
+                  <input formControlName="name" class="w-20rem" pInputText type="text" placeholder="Enter an name" />
+                </div>
+                <div class="flex flex-column gap-2 mb-4">
+                  <label class="font-bold">Address</label>
+                  <input formControlName="address" class="w-20rem" pInputText type="text" placeholder="Enter an address" />
+                </div>
+                <div class="flex flex-column gap-2 mb-4">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Update"
+                    (click)="submitUpdateLocation()"
+                    class="p-button-raised"
+                  ></button>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dialog>
       <p-confirmDialog 
       key="confirmDeleteLocations" 
       icon="pi pi-exclamation-triangle"
       [style]="{width: '350px'}" 
       acceptButtonStyleClass="p-button-text" 
       rejectButtonStyleClass="p-button-text">
-    </p-confirmDialog>
+      </p-confirmDialog>
       <h5 style="font-weight: 600">Locations</h5>
       <p-table
       #locationsDataTable
@@ -35,12 +69,13 @@
               label="New"
               class="mb-2 p-button-primary p-button-raised"
               icon="pi pi-fw pi-plus"
+              (click)="opLocation.toggle($event)"
             ></button>
-            <!-- <p-overlayPanel #opCategory [showCloseIcon]="true">
+            <p-overlayPanel #opLocation [showCloseIcon]="true">
               <ng-template pTemplate="content">
-                <form [formGroup]="categoryFormGroup" class="formgrid grid">
+                <form [formGroup]="locationFormGroup" class="formgrid grid">
                   <div class="flex flex-column flex-wrap gap-2">
-                    <h4 class="m-2">New Category</h4>
+                    <h4 class="m-2">New Location</h4>
                     <div class="col-12 md: col-6">
                       <div class="flex flex-column gap-2 mb-2">
                         <label class="font-bold">Name</label>
@@ -48,8 +83,18 @@
                           class="w-20rem"
                           pInputText
                           type="text"
-                          placeholder="Enter category name"
+                          placeholder="Enter location name"
                           formControlName="name"
+                        />
+                      </div>
+                      <div class="flex flex-column gap-2 mb-2">
+                        <label class="font-bold">Address</label>
+                        <input
+                          class="w-20rem"
+                          pInputText
+                          type="text"
+                          placeholder="Enter location address"
+                          formControlName="address"
                         />
                       </div>
                       <div class="flex flex-column gap-2 m-4">
@@ -58,15 +103,15 @@
                           pRipple
                           type="button"
                           label="Submit"
+                          (click)="createLocation()"
                           class="p-button-raised"
-                          (click)="createCategory()"
                         ></button>
                       </div>
                     </div>
                   </div>
                 </form>
               </ng-template>
-            </p-overlayPanel> -->
+            </p-overlayPanel>
             <button
               pButton
               pRipple
@@ -143,6 +188,7 @@
             [pTooltip]="tooltipLocationEdit" 
             class="m-1 cursor-pointer" 
             icon="pi pi-users"
+            (click)="showEditLocationModal(location)"
             severity="info">
             <ng-template #tooltipLocationEdit>
               <div class="flex align-items-center">

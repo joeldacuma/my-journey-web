@@ -63,6 +63,14 @@ export const CONFIRM_DELETE_LOCATION_TITLE = 'Delete Location';
 export const CONFIRM_DELETE_LOCATION_DETAILS = 'Are you sure you want to delete the selected location(s)?';
 export const DELETE_LOCATION_SUCCESS_TITLE = 'Location Deleted';
 export const DELETE_LOCATION_SUCESS_DETAILS = 'Selected location had been removed.';
+export const ERROR_UPDATE_LOCATION_TITLE = 'Error Updating Location';
+export const ERROR_UPDATE_LOCATION_DETAILS = 'Please check your inputs.';
+export const SUCCESS_UPDATE_LOCATION_TITLE = 'Location Updated';
+export const SUCCESS_UPDATE_LOCATION_DETAILS = 'Location had been updated.';
+export const ERROR_CREATE_LOCATION_TITLE = 'Error Creating Location';
+export const ERROR_CREATE_LOCATION_DETAILS = 'Please check your inputs fields.';
+export const SUCCESS_CREATE_LOCATION_TITLE = 'New Location Registered';
+export const SUCCESS_CREATE_LOCATION_DETAILS = 'Location had been created.';
 
 // ROUTES
 export const API_AUTH_URL = 'authentication/signin';

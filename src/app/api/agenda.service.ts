@@ -214,6 +214,15 @@ export class AgendaService {
     });
   }
 
+  addLocation(body: Object) {
+    return this.http.post<number>(`${environment.agenda}/location/new`,
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }      
+    });
+  }
+
   deleteLocations(body: Array<string>) {
     return this.http.post(`${environment.agenda}/location/delete`, 
     body, {
@@ -223,4 +232,12 @@ export class AgendaService {
     });
   }
 
+  editLocation(body: Object) {
+    return this.http.post(`${environment.agenda}/location/edit`, 
+    body, {
+      headers: {
+        'Authorization': `${this.authService.authenticatedToken()}`
+      }
+    });
+  }
 }
