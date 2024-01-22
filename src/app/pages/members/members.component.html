@@ -417,7 +417,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-member>
-          <tr>
+          <tr [ngStyle]="{'background': member.isActive ? null : '#ef4444'}">
             <td>
               <p-tableCheckbox [value]="member"></p-tableCheckbox>
             </td>

@@ -696,6 +696,7 @@ export class EventsComponent {
       this.events();
       this.pager();
       this.attendanceEvents();
+      this.loading();
     });
   }
 }

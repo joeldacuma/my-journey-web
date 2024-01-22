@@ -347,6 +347,7 @@ export class MembersComponent {
         summary: ERROR_UPDATE_MEMBER_TITLE,
         detail: ERROR_UPDATE_MEMBER_DETAILS, 
       });
+      this.loading.update(() => false);
       return;
     }
 
