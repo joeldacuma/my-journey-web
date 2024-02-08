@@ -40,8 +40,6 @@ export const GuestForm = {
         validators: [],
     }),
     invitedByMemberName: new FormControl('', {
-        validators: [
-          Validators.required,
-        ],
+        validators: [],
     }),
   };
