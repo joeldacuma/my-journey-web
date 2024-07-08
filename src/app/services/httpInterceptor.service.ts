@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpEvent, 
-         HttpInterceptor, 
-         HttpHandler, 
-         HttpRequest,
-         HTTP_INTERCEPTORS,
-         HttpErrorResponse } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, map, lastValueFrom } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
