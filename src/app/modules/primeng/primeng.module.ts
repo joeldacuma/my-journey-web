@@ -51,7 +51,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     InputGroupAddonModule,
     CalendarModule,
     ConfirmDialogModule,
-    SkeletonModule
+    SkeletonModule,
+    DropdownModule
   ]
 })
 export class PrimengModule { }

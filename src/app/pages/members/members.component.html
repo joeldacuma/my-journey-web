@@ -159,7 +159,7 @@
                 icon="pi pi-fw pi-plus"
                 (click)="opMember.toggle($event)"
               ></button>
-              <p-overlayPanel my="top right" at="right center" #opMember [showCloseIcon]="true">
+              <p-overlayPanel my="top right" at="right bottom" #opMember [showCloseIcon]="true">
                 <ng-template pTemplate="content">
                   <form [formGroup]="userFormGroup" class="formgrid grid">
                     <div class="flex flex-column flex-wrap gap-2">
@@ -241,16 +241,23 @@
                         </div>
                         <div class="flex flex-column gap-2 mb-2">
                           <label class="font-bold">Invited By</label>
-                          <input
+                          <!-- <input
                             formControlName="invitedByMemberName"
                             class="w-20rem"
                             pInputText
                             type="text"
                             placeholder="Enter member name"
-                          />
+                          /> -->
+                        <p-dropdown
+                        [options]="filterInvitedBy().members"
+                        [editable]="true"
+                        (onChange)="onFilterInvitedBy($event)"
+                        [(ngModel)]="selectedFitlerInvitedBy"
+                        placeholder="Member..."
+                        optionLabel="name" />
                         </div>
                         <div class="flex flex-column gap-2 mb-2">
-                          <label class="font-bold">Remarks</label>
+                          <label class="font-bold">(Youth/Professionals/Couples)</label>
                           <input
                             formControlName="remarks"
                             class="w-20rem"
@@ -405,7 +412,7 @@
             </th>
             <th>
               <div class="flex justify-content-between align-items-center">
-                Remarks
+                Status
                 <p-columnFilter
                   type="text"
                   field="remarks"
